@@ -1,5 +1,8 @@
 package Database.Records;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class AdminRecord {
 	
 	private String AID;
@@ -7,7 +10,16 @@ public class AdminRecord {
 	private String name;
 	private String title;
 	
-	
+	/**
+	 * @param rs Result set holding the database record
+	 * @throws SQLException
+	 */
+	public AdminRecord(ResultSet rs) throws SQLException {
+		AID = rs.getString("aid");
+		password = rs.getString("password");
+		name = rs.getString("name");
+		title = rs.getString("title");
+	}
 	
 	/**
 	 * @param AID Admin ID

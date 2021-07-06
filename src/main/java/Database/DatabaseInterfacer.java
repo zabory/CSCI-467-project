@@ -1,6 +1,8 @@
 package Database;
 
 import java.sql.Connection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DatabaseInterfacer {
 	
@@ -15,5 +17,6 @@ public class DatabaseInterfacer {
 	}
 	
 	// TODO Create methods for interfacing with the database
+	
 
 }

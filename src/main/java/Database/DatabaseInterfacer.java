@@ -1,8 +1,10 @@
 package Database;
 
 import java.sql.Connection;
-import java.util.LinkedList;
-import java.util.List;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class DatabaseInterfacer {
 	
@@ -10,13 +12,25 @@ public class DatabaseInterfacer {
 	
 	private Connection DBConnection;
 	
-	public DatabaseInterfacer () {
-		/*
-		 * TODO Establish database connection
-		 */
+	public DatabaseInterfacer () throws SQLException {
+		DBConnection = DriverManager.getConnection("Random.db");
 	}
 	
-	// TODO Create methods for interfacing with the database
-	
-
+	/**
+     * execute a query that returns data
+     * @param sql sql statement to execute
+     * @return the results of query
+     */
+    public ResultSet executeQuery(String sql) throws SQLException {
+        return DBConnection.createStatement().executeQuery(sql);
+    }
+    
+    /**
+     * 
+     * @throws SQLException
+     */
+    public void saveClose() throws SQLException {
+    	DBConnection.commit();
+    	DBConnection.close();
+    }
 }

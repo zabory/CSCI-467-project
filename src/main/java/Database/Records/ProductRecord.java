@@ -34,6 +34,10 @@ public class ProductRecord {
 		this.pictureLink = pictureLink;
 	}
 	
+	public ProductRecord() {
+		
+	}
+
 	/**
 	 * @return the pID
 	 */

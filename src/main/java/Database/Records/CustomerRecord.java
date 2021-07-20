@@ -38,8 +38,9 @@ public class CustomerRecord {
 		this.contact = contact;
 	}
 	
-	public void updateRecord() {
+	public String updateRecord() {
 		// TODO make update record method work
+		return null;
 	}
 	
 	public String insertRecord() {

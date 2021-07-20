@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import Database.Records.Record;
 
 
 public class DatabaseInterfacer {
@@ -23,6 +26,21 @@ public class DatabaseInterfacer {
      */
     public ResultSet executeQuery(String sql) throws SQLException {
         return DBConnection.createStatement().executeQuery(sql);
+    }
+    
+    public void insert(Record record) {
+    	String sql = record.insert();
+		Statement statement;
+		try {
+			statement = DBConnection.createStatement();
+			statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void update(Record record) {
+    	//TODO implement method
     }
     
     /**

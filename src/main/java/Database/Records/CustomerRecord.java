@@ -3,7 +3,7 @@ package Database.Records;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CustomerRecord {
+public class CustomerRecord implements Record {
 
 	private int id;
 	private String name;
@@ -38,13 +38,13 @@ public class CustomerRecord {
 		this.contact = contact;
 	}
 	
-	public String updateRecord() {
-		// TODO make update record method work
-		return null;
-	}
-	
-	public String insertRecord() {
+	public String insert() {
 		return "INSERT INTO customers VALUES (" + id + ",'" + name + "','" + city + "','" + street + "','" + contact + "')";
+	}
+
+	public String update() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -116,4 +116,5 @@ public class CustomerRecord {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
+
 }

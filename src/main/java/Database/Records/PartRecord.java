@@ -3,7 +3,7 @@ package Database.Records;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PartRecord {
+public class PartRecord implements Record {
 	
 	private int number;
 	private String description;
@@ -38,11 +38,11 @@ public class PartRecord {
 		this.pictureURL = pictureURL;
 	}
 	
-	public String insertRecord() {
+	public String insert() {
 		return "INSERT INTO parts VALUES (" + number + ",'" + description + "'," + price + "," + weight + ",'" + pictureURL + "')";
 	}
 
-	public String updateRecord() {
+	public String update() {
 		// TODO make update record method work
 		return null;
 	}

@@ -38,6 +38,10 @@ public class PartRecord implements Record {
 		this.pictureURL = pictureURL;
 	}
 	
+	public PartRecord() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String insert() {
 		return "INSERT INTO parts VALUES (" + number + ",'" + description + "'," + price + "," + weight + ",'" + pictureURL + "')";
 	}

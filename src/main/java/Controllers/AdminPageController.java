@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import Database.DatabaseInterfacer;
-import Database.Records.ProductRecord;
+import Database.Records.PartRecord;
 
 @Controller
 public class AdminPageController {
 	
 	  @GetMapping("/ProductEditing")
 	  public String greetingForm(Model model) {
-	    model.addAttribute("record", new ProductRecord());
+	    model.addAttribute("record", new PartRecord());
 	    return "ProductEditing";
 	  }
 
 	  @PostMapping("/ProductEditing")
-	  public String greetingSubmit(@ModelAttribute ProductRecord record, Model model) {
+	  public String greetingSubmit(@ModelAttribute PartRecord record, Model model) {
 	    model.addAttribute("record", record);
 	    
 	    try {

@@ -29,10 +29,20 @@ public class GreetingController {
 	@GetMapping("/c_orders")
 	public String greeting(Model model) {
 		LinkedList<ProductRecord> temp = new LinkedList<ProductRecord>();
-		temp.add(new ProductRecord("123123","tent name",4,"/images/coolTent.png"));
-		temp.add(new ProductRecord("422"   ,"good name",2,"image"));
-		temp.add(new ProductRecord("1414"  ,"sticks",1,"image"));
-		temp.add(new ProductRecord("515556","bad tent",4,"image"));
+		temp.add(new ProductRecord("123123","tent name",4,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("422"   ,"good name",2,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("1414"  ,"sticks",1,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("515556","bad tent",4,"assests/img/products/coolTent.png"));
+
+		temp.add(new ProductRecord("123123","tent name",4,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("422"   ,"good name",2,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("1414"  ,"sticks",1,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("515556","bad tent",4,"assests/img/products/coolTent.png"));
+
+		temp.add(new ProductRecord("123123","tent name",4,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("422"   ,"good name",2,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("1414"  ,"sticks",1,"assests/img/products/coolTent.png"));
+		temp.add(new ProductRecord("515556","bad tent",4,"assests/img/products/coolTent.png"));
 		
 		model.addAttribute("products", temp);
 		return "c_orders";

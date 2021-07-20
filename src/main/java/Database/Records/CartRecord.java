@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class CartRecord {
 
 	private String CID;
-	private HashMap<ProductRecord, Integer> products;
+	private HashMap<PartRecord, Integer> products;
 	
 	public CartRecord(ResultSet rs) throws SQLException {
 		

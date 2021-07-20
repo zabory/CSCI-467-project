@@ -13,7 +13,7 @@ public class DatabaseInterfacer {
 	private Connection DBConnection;
 	
 	public DatabaseInterfacer () throws SQLException {
-		DBConnection = DriverManager.getConnection("Random.db");
+		DBConnection = DriverManager.getConnection("Database.db");
 	}
 	
 	/**

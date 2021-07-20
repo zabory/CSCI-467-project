@@ -29,6 +29,10 @@ public class DatabaseInterfacer {
         return DBConnection.createStatement().executeQuery(sql);
     }
     
+    /**
+     * Use this method to create a record on the table
+     * @param record to be inserted
+     */
     public void insert(Record record) {
     	String sql = record.insert();
 		Statement statement;
@@ -40,22 +44,41 @@ public class DatabaseInterfacer {
 		}
     }
     
+    /**
+     * Use this method to update a record on the table
+     * @param record to be updated
+     */
     public void update(Record record) {
-    	//TODO implement method
+    	String sql = record.update();
+		Statement statement;
+		try {
+			statement = DBConnection.createStatement();
+			statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
     
+    /**
+     * Get a customer record by ID
+     * @param id of the customer record
+     * @return customer record
+     */
     public CustomerRecord getCustomerRecord(int id) {
     	String sql = "select * from customers where id=" + id;
     	try {
 			Statement statement = DBConnection.createStatement();
 			return new CustomerRecord(statement.executeQuery(sql));
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
     	return null;
     }
     
+    /**
+     * get all the customer records
+     * @return Linked list of customer records
+     */
     public LinkedList<CustomerRecord> getAllCustomerRecords(){
     	String sql = "select * from customers";
     	try {
@@ -73,6 +96,11 @@ public class DatabaseInterfacer {
     	return null;
     }
     
+    /**
+     * Get a part record by ID
+     * @param id of the part record
+     * @return part record
+     */
     public PartRecord getPartRecord(int id) {
     	String sql = "select * from parts where number=" + id;
     	try {
@@ -85,6 +113,10 @@ public class DatabaseInterfacer {
     	return null;
     }
     
+    /**
+     * get all the part records
+     * @return Linked list of part records
+     */
     public LinkedList<PartRecord> getAllPartRecords(){
     	String sql = "select * from parts";
     	try {
@@ -101,12 +133,8 @@ public class DatabaseInterfacer {
 		}
     	return null;
     }
-    /**
-     * 
-     * @throws SQLException
-     */
-    public void saveClose() throws SQLException {
-    	DBConnection.commit();
+    
+    public void close() throws SQLException {
     	DBConnection.close();
     }
 }

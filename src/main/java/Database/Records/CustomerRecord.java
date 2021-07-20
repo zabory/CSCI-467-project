@@ -39,12 +39,11 @@ public class CustomerRecord implements Record {
 	}
 	
 	public String insert() {
-		return "INSERT INTO customers VALUES (" + id + ",'" + name + "','" + city + "','" + street + "','" + contact + "')";
+		return "INSERT INTO customers VALUES (" + id + ",'" + name.replace("'", "''") + "','" + city.replace("'", "''") + "','" + street.replace("'", "''") + "','" + contact.replace("'", "''") + "')";
 	}
 
 	public String update() {
-		// TODO Auto-generated method stub
-		return null;
+		return "UPDATE customers SET name = '" + name.replace("'", "''") + "', city= '" + city.replace("'", "''") + "', street= '" + street.replace("'", "''") + "', contact= '" + contact.replace("'", "''") + "' where id=" + id;
 	}
 
 	/**

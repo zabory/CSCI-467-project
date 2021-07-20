@@ -7,8 +7,8 @@ public class PartRecord implements Record {
 	
 	private int number;
 	private String description;
-	private long price;
-	private long weight;
+	private double price;
+	private double weight;
 	private String pictureURL;
 	
 	/**
@@ -18,8 +18,8 @@ public class PartRecord implements Record {
 	public PartRecord(ResultSet rs) throws SQLException {
 		number = rs.getInt("number");
 		description = rs.getString("description");
-		price = rs.getLong("price");
-		weight = rs.getLong("weight");
+		price = rs.getDouble("price");
+		weight = rs.getDouble("weight");
 		pictureURL = rs.getString("pictureURL");
 	}
 
@@ -30,7 +30,7 @@ public class PartRecord implements Record {
 	 * @param weight
 	 * @param pictureURL
 	 */
-	public PartRecord(int number, String description, long price, long weight, String pictureURL) {
+	public PartRecord(int number, String description, double price, double weight, String pictureURL) {
 		this.number = number;
 		this.description = description;
 		this.price = price;
@@ -43,8 +43,7 @@ public class PartRecord implements Record {
 	}
 
 	public String update() {
-		// TODO make update record method work
-		return null;
+		return "UPDATE parts SET description = '" + description.replace("'", "''") + "', price= " + price + ", weight= " + weight + ", pictureURL= '" + pictureURL.replace("'", "''") + "' where number=" + number;
 	}
 	
 	/**
@@ -78,29 +77,29 @@ public class PartRecord implements Record {
 	/**
 	 * @return the price
 	 */
-	public long getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(long price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
 	/**
 	 * @return the weight
 	 */
-	public long getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
 	/**
-	 * @param weight the weight to set
+	 * @param d the weight to set
 	 */
-	public void setWeight(long weight) {
-		this.weight = weight;
+	public void setWeight(double d) {
+		this.weight = d;
 	}
 
 	/**

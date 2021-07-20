@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-import Database.Records.ProductRecord;
+import Database.Records.PartRecord;
 
 @Controller
 public class GreetingController {
@@ -28,11 +28,11 @@ public class GreetingController {
 	
 	@GetMapping("/c_orders")
 	public String greeting(Model model) {
-		LinkedList<ProductRecord> temp = new LinkedList<ProductRecord>();
-		temp.add(new ProductRecord("123123","tent name",4,"/images/coolTent.png"));
-		temp.add(new ProductRecord("422"   ,"good name",2,"image"));
-		temp.add(new ProductRecord("1414"  ,"sticks",1,"image"));
-		temp.add(new ProductRecord("515556","bad tent",4,"image"));
+		LinkedList<PartRecord> temp = new LinkedList<PartRecord>();
+//		temp.add(new PartRecord(123123,"tent name",12.21,4,"/images/coolTent.png"));
+//		temp.add(new PartRecord(422  ,"good name",12.21,2,"image"));
+//		temp.add(new PartRecord(1414  ,"sticks",12.21,1,"image"));
+//		temp.add(new PartRecord(515556,"bad tent",12.21,4,"image"));
 		
 		model.addAttribute("products", temp);
 		return "c_orders";

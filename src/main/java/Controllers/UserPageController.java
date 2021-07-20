@@ -1,5 +1,10 @@
 package Controllers;
 
-public class UserPageController {
 
+
+
+@Controller 
+public class UserPageController {
+	
+	
 }

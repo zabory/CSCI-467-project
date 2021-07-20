@@ -38,12 +38,25 @@ public class CustomerRecord implements Record {
 		this.contact = contact;
 	}
 	
+	/**
+	 * Get the SQL statement to insert this record
+	 */
 	public String insert() {
 		return "INSERT INTO customers VALUES (" + id + ",'" + name.replace("'", "''") + "','" + city.replace("'", "''") + "','" + street.replace("'", "''") + "','" + contact.replace("'", "''") + "')";
 	}
 
+	/**
+	 * Get the SQL statement to update this record
+	 */
 	public String update() {
 		return "UPDATE customers SET name = '" + name.replace("'", "''") + "', city= '" + city.replace("'", "''") + "', street= '" + street.replace("'", "''") + "', contact= '" + contact.replace("'", "''") + "' where id=" + id;
+	}
+	
+	/**
+	 * Get the SQL statement to delete this record
+	 */
+	public String delete() {
+		return "delete from customers where id=" + id;
 	}
 
 	/**

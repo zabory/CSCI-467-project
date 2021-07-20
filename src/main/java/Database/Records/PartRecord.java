@@ -38,12 +38,25 @@ public class PartRecord implements Record {
 		this.pictureURL = pictureURL;
 	}
 
+	/**
+	 * Get the SQL statement to insert this record
+	 */
 	public String insert() {
 		return "INSERT INTO parts VALUES (" + number + ",'" + description + "'," + price + "," + weight + ",'" + pictureURL + "')";
 	}
 
+	/**
+	 * Get the SQL statement to update this record
+	 */
 	public String update() {
 		return "UPDATE parts SET description = '" + description.replace("'", "''") + "', price= " + price + ", weight= " + weight + ", pictureURL= '" + pictureURL.replace("'", "''") + "' where number=" + number;
+	}
+	
+	/**
+	 * Get the SQL statement to delete this record
+	 */
+	public String delete() {
+		return "delete from parts where number=" + number;
 	}
 	
 	/**

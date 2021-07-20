@@ -20,20 +20,26 @@ public class DatabaseInterfacer {
 		DBConnection = DriverManager.getConnection("jdbc:sqlite:Database.db");
 	}
 	
-	/**
-     * execute a query that returns data
-     * @param sql sql statement to execute
-     * @return the results of query
+    /**
+     * Deletes record from database
+     * @param record to delete from database
      */
-    public ResultSet executeQuery(String sql) throws SQLException {
-        return DBConnection.createStatement().executeQuery(sql);
+    public synchronized void delete(Record record) {
+    	String sql = record.delete();
+		Statement statement;
+		try {
+			statement = DBConnection.createStatement();
+			statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
     
     /**
      * Use this method to create a record on the table
      * @param record to be inserted
      */
-    public void insert(Record record) {
+    public synchronized void insert(Record record) {
     	String sql = record.insert();
 		Statement statement;
 		try {
@@ -48,7 +54,7 @@ public class DatabaseInterfacer {
      * Use this method to update a record on the table
      * @param record to be updated
      */
-    public void update(Record record) {
+    public synchronized void update(Record record) {
     	String sql = record.update();
 		Statement statement;
 		try {
@@ -64,7 +70,7 @@ public class DatabaseInterfacer {
      * @param id of the customer record
      * @return customer record
      */
-    public CustomerRecord getCustomerRecord(int id) {
+    public synchronized CustomerRecord getCustomerRecord(int id) {
     	String sql = "select * from customers where id=" + id;
     	try {
 			Statement statement = DBConnection.createStatement();
@@ -79,7 +85,7 @@ public class DatabaseInterfacer {
      * get all the customer records
      * @return Linked list of customer records
      */
-    public LinkedList<CustomerRecord> getAllCustomerRecords(){
+    public synchronized LinkedList<CustomerRecord> getAllCustomerRecords(){
     	String sql = "select * from customers";
     	try {
 			Statement statement = DBConnection.createStatement();
@@ -101,7 +107,7 @@ public class DatabaseInterfacer {
      * @param id of the part record
      * @return part record
      */
-    public PartRecord getPartRecord(int id) {
+    public synchronized PartRecord getPartRecord(int id) {
     	String sql = "select * from parts where number=" + id;
     	try {
 			Statement statement = DBConnection.createStatement();
@@ -117,7 +123,7 @@ public class DatabaseInterfacer {
      * get all the part records
      * @return Linked list of part records
      */
-    public LinkedList<PartRecord> getAllPartRecords(){
+    public synchronized LinkedList<PartRecord> getAllPartRecords(){
     	String sql = "select * from parts";
     	try {
 			Statement statement = DBConnection.createStatement();

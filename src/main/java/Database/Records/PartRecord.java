@@ -20,7 +20,7 @@ public class PartRecord implements Record {
 		description = rs.getString("description");
 		price = rs.getLong("price");
 		weight = rs.getLong("weight");
-		pictureURL = rs.getString("pictureLink");
+		pictureURL = rs.getString("pictureURL");
 	}
 
 	/**
@@ -116,8 +116,10 @@ public class PartRecord implements Record {
 	public void setPictureURL(String pictureURL) {
 		this.pictureURL = pictureURL;
 	}
-	
 
-	
-	
+	@Override
+	public String toString() {
+		return "PartRecord [number=" + number + ", description=" + description + ", price=" + price + ", weight="
+				+ weight + ", pictureURL=" + pictureURL + "]";
+	}	
 }

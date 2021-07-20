@@ -117,4 +117,9 @@ public class CustomerRecord implements Record {
 		this.contact = contact;
 	}
 
+	@Override
+	public String toString() {
+		return "CustomerRecord [id=" + id + ", name=" + name + ", city=" + city + ", street=" + street + ", contact="
+				+ contact + "]";
+	}
 }

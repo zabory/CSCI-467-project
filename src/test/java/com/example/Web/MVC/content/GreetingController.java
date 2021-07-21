@@ -20,10 +20,9 @@ public class GreetingController {
 	 * 		This means that if the webpage was reached with a name variable, it will serve something different
 	 * 		example: <webstie>/greeting?name=Ben will say Hello, Ben! instead of Hello, World!
 	 */
-	@GetMapping("/greeting")
-	public String greeting(@RequestParam(name="name", required=false, defaultValue="Earth") String name, Model model) {
-		model.addAttribute("name", name);
-		return "greeting";
+	@GetMapping("/a_home")
+	public String greeting_a(Model model) {
+		return "a_home";
 	}
 	
 	@GetMapping("/c_orders")
@@ -48,6 +47,22 @@ public class GreetingController {
 		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
 		temp.add(new PartRecord(1414  ,"sticks",12,1,"assets/img/products/banana.png"));
 		temp.add(new PartRecord(515556,"dasa",12,4,"assets/img/products/homer.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
+		temp.add(new PartRecord(1414  ,"sticks",12,1,"assets/img/products/banana.png"));
+		temp.add(new PartRecord(515556,"dasa",12,4,"assets/img/products/homer.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
+		temp.add(new PartRecord(1414  ,"sticks",12,1,"assets/img/products/banana.png"));
+		temp.add(new PartRecord(515556,"dasa",12,4,"assets/img/products/homer.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
 		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
 		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
 		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));

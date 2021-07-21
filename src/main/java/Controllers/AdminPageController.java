@@ -16,23 +16,13 @@ public class AdminPageController {
 	
 	  @GetMapping("/ProductEditing")
 	  public String greetingForm(Model model) {
-	    model.addAttribute("record", new PartRecord());
+		  
 	    return "ProductEditing";
 	  }
 
 	  @PostMapping("/ProductEditing")
 	  public String greetingSubmit(@ModelAttribute PartRecord record, Model model) {
 	    model.addAttribute("record", record);
-	    
-	    try {
-			DatabaseInterfacer db = new DatabaseInterfacer();
-			// TODO execute the query 
-			db.saveClose();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	    
 	    
 	    return "results";
 	  }

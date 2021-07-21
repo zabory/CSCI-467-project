@@ -10,6 +10,7 @@ public class PartRecord implements Record {
 	private double price;
 	private double weight;
 	private String pictureURL;
+	private int quantity;
 	
 	/**
 	 * @param rs Result set holding the database record
@@ -21,6 +22,7 @@ public class PartRecord implements Record {
 		price = rs.getDouble("price");
 		weight = rs.getDouble("weight");
 		pictureURL = rs.getString("pictureURL");
+		quantity = rs.getInt("quantity");
 	}
 
 	/**
@@ -29,27 +31,29 @@ public class PartRecord implements Record {
 	 * @param price
 	 * @param weight
 	 * @param pictureURL
+	 * @param quantity
 	 */
-	public PartRecord(int number, String description, double price, double weight, String pictureURL) {
+	public PartRecord(int number, String description, double price, double weight, String pictureURL, int quantity) {
 		this.number = number;
 		this.description = description;
 		this.price = price;
 		this.weight = weight;
 		this.pictureURL = pictureURL;
+		this.quantity = quantity;
 	}
 
 	/**
 	 * Get the SQL statement to insert this record
 	 */
 	public String insert() {
-		return "INSERT INTO parts VALUES (" + number + ",'" + description + "'," + price + "," + weight + ",'" + pictureURL + "')";
+		return "INSERT INTO parts VALUES (" + number + ",'" + description + "'," + price + "," + weight + ",'" + pictureURL + "', " + quantity +")";
 	}
 
 	/**
 	 * Get the SQL statement to update this record
 	 */
 	public String update() {
-		return "UPDATE parts SET description = '" + description.replace("'", "''") + "', price= " + price + ", weight= " + weight + ", pictureURL= '" + pictureURL.replace("'", "''") + "' where number=" + number;
+		return "UPDATE parts SET description = '" + description.replace("'", "''") + "', price= " + price + ", weight= " + weight + ", pictureURL= '" + pictureURL.replace("'", "''") + "', quantity= " + quantity + " where number=" + number;
 	}
 	
 	/**
@@ -59,6 +63,20 @@ public class PartRecord implements Record {
 		return "delete from parts where number=" + number;
 	}
 	
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	/**
 	 * @return the number
 	 */

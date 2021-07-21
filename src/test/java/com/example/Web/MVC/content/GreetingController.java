@@ -29,10 +29,33 @@ public class GreetingController {
 	@GetMapping("/c_orders")
 	public String greeting(Model model) {
 		LinkedList<PartRecord> temp = new LinkedList<PartRecord>();
-//		temp.add(new PartRecord(123123,"tent name",12.21,4,"/images/coolTent.png"));
-//		temp.add(new PartRecord(422  ,"good name",12.21,2,"image"));
-//		temp.add(new PartRecord(1414  ,"sticks",12.21,1,"image"));
-//		temp.add(new PartRecord(515556,"bad tent",12.21,4,"image"));
+		temp.add(new PartRecord(123123,"tent name",12,4,"assets/img/products/coolTent.png"));
+		temp.add(new PartRecord(422  ,"good name",12,2,"assets/img/products/bear.png"));
+		temp.add(new PartRecord(1414  ,"sticks",12,1,"assets/img/products/banana.png"));
+		temp.add(new PartRecord(515556,"dasa",12,4,"assets/img/products/homer.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
+		temp.add(new PartRecord(1414  ,"sticks",12,1,"assets/img/products/banana.png"));
+		temp.add(new PartRecord(515556,"dasa",12,4,"assets/img/products/homer.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
+		temp.add(new PartRecord(1414  ,"sticks",12,1,"assets/img/products/banana.png"));
+		temp.add(new PartRecord(515556,"dasa",12,4,"assets/img/products/homer.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
+		temp.add(new PartRecord(1414  ,"sticks",12,1,"assets/img/products/banana.png"));
+		temp.add(new PartRecord(515556,"dasa",12,4,"assets/img/products/homer.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
+		temp.add(new PartRecord(1414  ,"sticks",12,1,"assets/img/products/banana.png"));
+		temp.add(new PartRecord(515556,"dasa",12,4,"assets/img/products/homer.png"));
+		temp.add(new PartRecord(515556,"bad 14124",12,4,"assets/img/products/shrek.png"));
+		temp.add(new PartRecord(515556,"bad 1",12,4,"assets/img/products/weird.png"));
+		temp.add(new PartRecord(515556,"1231331 tent",12,4,"assets/img/products/mytreehouse.png"));
 		
 		model.addAttribute("products", temp);
 		return "c_orders";

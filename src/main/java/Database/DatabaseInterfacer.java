@@ -16,8 +16,12 @@ public class DatabaseInterfacer {
 	
 	private Connection DBConnection;
 	
-	public DatabaseInterfacer () throws SQLException {
-		DBConnection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+	public DatabaseInterfacer () {
+		try {
+			DBConnection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
     /**

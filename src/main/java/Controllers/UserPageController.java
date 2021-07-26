@@ -6,8 +6,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,6 +20,7 @@ import Database.DatabaseInterfacer;
 import application.App;
 
 @Controller 
+@RequestMapping({ "/", "/index", "/add" })
 public class UserPageController {
 	
 	private final static String VENDOR_ID = "";
@@ -24,9 +30,23 @@ public class UserPageController {
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();
+		System.out.println("loaded");
 	}
 	
+	@RequestMapping
+    public String main(Model model) {
+		model.addAttribute("products",DBInterfacer.getAllPartRecords());
+        return "index";
+    }
 	
+	@GetMapping("/add")
+    @ResponseStatus(value = HttpStatus.OK)
+    public String addItem(Model model)
+    {
+		model.addAttribute("products",DBInterfacer.getAllPartRecords());
+        System.out.println("Hello");
+        return "index";
+    }
 	/**
 	 * 
 	 * @param ccNumber

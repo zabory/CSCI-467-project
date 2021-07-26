@@ -11,8 +11,8 @@ public class App {
 	private static DatabaseInterfacer DBInterfacer;
 
 	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
 		DBInterfacer = new DatabaseInterfacer();
+		SpringApplication.run(App.class, args);
 	}
 	
 	public static DatabaseInterfacer getDatabaseInterfacer() {

@@ -21,7 +21,9 @@ public class AdminPageController {
 
 	@RequestMapping
     public String main(Model model) {
-        model.addAttribute("record", DBInterfacer.getAllOrderRecords());
+        model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
+        model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
+        model.addAttribute("products", DBInterfacer.getAllPartRecords());
         return "a_home";
     }
 	

@@ -17,7 +17,9 @@ public class OrderRecord implements Record {
 	
 	// <part ID, number of part>
 	private HashMap<Integer, Integer> parts;
-	
+
+
+
 	// 0: unauthed, 1: authed, 2: shipped
 	private int authorization;
 
@@ -48,6 +50,7 @@ public class OrderRecord implements Record {
 	 * @param iD
 	 * @param parts
 	 * @param authorization
+	 * @param customerID
 	 */
 	public OrderRecord(String date, int iD, HashMap<Integer, Integer> parts, int authorization, int customerID) {
 		this.date = date;
@@ -163,7 +166,19 @@ public class OrderRecord implements Record {
 		this.authorization = authorization;
 	}
 
+	/**
+	 * @return the customerID
+	 */
+	public int getCustomerID() {
+		return customerID;
+	}
 
+	/**
+	 * @param customerID the customerID to set
+	 */
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
+	}
 
 	@Override
 	public String toString() {

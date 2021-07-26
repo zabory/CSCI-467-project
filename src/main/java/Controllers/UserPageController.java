@@ -30,7 +30,6 @@ public class UserPageController {
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();
-		System.out.println("loaded");
 	}
 	
 	@RequestMapping

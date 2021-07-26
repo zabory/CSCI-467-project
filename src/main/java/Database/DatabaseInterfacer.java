@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 
 import Database.Records.CustomerRecord;
+import Database.Records.OrderRecord;
 import Database.Records.PartRecord;
 import Database.Records.Record;
 
@@ -79,6 +80,43 @@ public class DatabaseInterfacer {
     	try {
 			Statement statement = DBConnection.createStatement();
 			return new CustomerRecord(statement.executeQuery(sql));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	return null;
+    }
+    
+    /**
+     * Get a order record by ID
+     * @param id of the order record
+     * @return order record
+     */
+    public synchronized OrderRecord getOrderRecord(int id) {
+    	String sql = "select * from orders where id=" + id;
+    	try {
+			Statement statement = DBConnection.createStatement();
+			return new OrderRecord(statement.executeQuery(sql));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	return null;
+    }
+    
+    /**
+     * get all the customer records
+     * @return Linked list of customer records
+     */
+    public synchronized LinkedList<OrderRecord> getAllOrderRecords(){
+    	String sql = "select * from orders";
+    	try {
+			Statement statement = DBConnection.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			LinkedList<OrderRecord> records = new LinkedList<OrderRecord>();
+			while(rs.next()) {
+				records.add(new OrderRecord(rs));
+			}
+			return records;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

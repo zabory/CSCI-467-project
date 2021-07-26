@@ -13,6 +13,7 @@ public class OrderRecord implements Record {
 	
 	private String date;
 	private int ID;
+	private int customerID;
 	
 	// <part ID, number of part>
 	private HashMap<Integer, Integer> parts;
@@ -24,6 +25,7 @@ public class OrderRecord implements Record {
 		ID = rs.getInt("id");
 		date = rs.getString("date");
 		authorization = rs.getInt("authorization");
+		customerID = rs.getInt("customerID");
 		
 		parts = new HashMap<Integer, Integer>();
 		
@@ -47,21 +49,22 @@ public class OrderRecord implements Record {
 	 * @param parts
 	 * @param authorization
 	 */
-	public OrderRecord(String date, int iD, HashMap<Integer, Integer> parts, int authorization) {
+	public OrderRecord(String date, int iD, HashMap<Integer, Integer> parts, int authorization, int customerID) {
 		this.date = date;
 		ID = iD;
 		this.parts = parts;
+		this.customerID = customerID;
 		this.authorization = authorization;
 	}
 
 
 
 	public String insert() {
-		return "INSERT INTO orders VALUES (" + ID + ",'" + partsToJSONString() + "','" + date + "'," + authorization + ")";
+		return "INSERT INTO orders VALUES (" + ID + ",'" + partsToJSONString() + "','" + date + "'," + authorization + "," + customerID + ")";
 	}
 
 	public String update() {
-		return "UPDATE orders SET parts = '" + partsToJSONString() + "', date= '" + date + "', authorization= " + authorization + " where id=" + ID;
+		return "UPDATE orders SET parts = '" + partsToJSONString() + "', date= '" + date + "', authorization= " + authorization + ", customerID= " + customerID +" where id=" + ID;
 	}
 
 	public String delete() {

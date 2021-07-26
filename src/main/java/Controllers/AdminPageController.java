@@ -7,16 +7,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import Database.DatabaseInterfacer;
 import Database.Records.PartRecord;
 import application.App;
 
 @Controller
+@RequestMapping({ "/a_home" })
 public class AdminPageController {
 
 	private DatabaseInterfacer DBInterfacer;
 
+	@RequestMapping
+    public String main(Model model) {
+        model.addAttribute("record", DBInterfacer.getAllOrderRecords());
+        return "a_home";
+    }
+	
 	@GetMapping("/ProductEditing")
 	public String greetingForm(Model model) {
 
@@ -25,7 +33,6 @@ public class AdminPageController {
 
 	@PostMapping("/ProductEditing")
 	public String greetingSubmit(@ModelAttribute PartRecord record, Model model) {
-		model.addAttribute("record", record);
 
 		return "results";
 	}

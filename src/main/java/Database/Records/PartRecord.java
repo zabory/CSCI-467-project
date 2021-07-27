@@ -150,6 +150,6 @@ public class PartRecord implements Record {
 	@Override
 	public String toString() {
 		return "PartRecord [number=" + number + ", description=" + description + ", price=" + price + ", weight="
-				+ weight + ", pictureURL=" + pictureURL + "]";
-	}	
+				+ weight + ", pictureURL=" + pictureURL + ", quantity=" + quantity + "]";
+	}
 }

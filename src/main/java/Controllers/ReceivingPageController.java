@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import Database.DatabaseInterfacer;
+import Database.Records.PartRecord;
 import application.App;
 
 @Controller
@@ -20,8 +21,21 @@ public class ReceivingPageController {
         model.addAttribute("products", DBInterfacer.getAllPartRecords());
         return "r_home";
     }
+	
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();
+	}
+	
+	/**
+	 * Processes order record and updates inventory
+	 * @param Oid Order ID
+	 */
+	public void updateInventory(int pID, int amount){
+		
+		PartRecord record = DBInterfacer.getPartRecord(pID);
+		record.setQuantity(amount);
+		DBInterfacer.update(record);
+		
 	}
 }

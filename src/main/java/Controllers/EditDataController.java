@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import Controllers.Changer.ReceivingChanger;
 import Controllers.Changer.WarehouseChanger;
 import Database.DatabaseInterfacer;
+import Database.Records.OrderRecord;
 import Database.Records.PartRecord;
 import application.App;
 
@@ -49,7 +50,11 @@ public class EditDataController {
     @PostMapping("/w_home/change")
     public String showPageW(@ModelAttribute("countChanger") WarehouseChanger bean, Model model) {
     	
-        System.out.println("Amount: " + bean.getProductID()); //in reality, you'd use a logger instead :)
+    	try {
+        	processOrder(bean.getProductID());
+        }catch(Exception e) {
+        	
+        }
 
         model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
         return "w_home";
@@ -70,5 +75,27 @@ public class EditDataController {
 		record.setQuantity(amount);
 		DBInterfacer.update(record);
 		
+	}
+	
+	/**
+	 * Processes order record and updates inventory
+	 * @param Oid Order ID
+	 */
+	private void processOrder(int Oid){
+		
+		OrderRecord record = DBInterfacer.getOrderRecord(Oid);
+		
+		if(record.getAuthorization() == 1){
+			// ready to process
+			record.setAuthorization(2);
+			
+			DBInterfacer.update(record);
+			// update inventory in DB
+			for(Integer key: record.getParts().keySet()){
+				PartRecord pRecord = DBInterfacer.getPartRecord(key);
+				pRecord.setQuantity(pRecord.getQuantity() - record.getParts().get(key));
+				DBInterfacer.update(pRecord);
+			}
+		}
 	}
 }

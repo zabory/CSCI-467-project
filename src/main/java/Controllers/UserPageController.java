@@ -17,6 +17,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import Database.DatabaseInterfacer;
+import Database.Records.OrderRecord;
 import application.App;
 
 @Controller 
@@ -85,6 +86,14 @@ public class UserPageController {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	private double calculateShippingCosts(int Oid)
+	{
+		final double baseShipPerPound = 20.00;
+		OrderRecord record = DBInterfacer.getOrderRecord(Oid);
+		return ((int)(Double.parseDouble(record.getOrderWeight()) / 50) + 1)*baseShipPerPound;
+		
 	}
 	
 }

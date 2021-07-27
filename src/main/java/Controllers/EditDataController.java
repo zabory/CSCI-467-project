@@ -29,8 +29,10 @@ public class EditDataController {
 
     @PostMapping("/r_home/change")
     public String showPage(@ModelAttribute("countChanger") ReceivingChanger bean, Model model) {
-        
-      updateInventory(Integer.parseInt(bean.getProductId()), Integer.parseInt(bean.getNewAmount()));
+        try {
+        	updateInventory(Integer.parseInt(bean.getProductId()), Integer.parseInt(bean.getNewAmount()));
+        }catch(Exception e) {
+        }
 
         model.addAttribute("products", DBInterfacer.getAllPartRecords());
         return "r_home";

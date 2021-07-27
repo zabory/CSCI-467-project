@@ -4,6 +4,7 @@ package Database.Records;
 public class ReceivingChanger {
 
 	private String newAmount;
+	private String productId;
 
 	/**
 	 * @return the newAmount
@@ -17,6 +18,20 @@ public class ReceivingChanger {
 	 */
 	public void setNewAmount(String newAmount) {
 		this.newAmount = newAmount;
+	}
+
+	/**
+	 * @return the productId
+	 */
+	public String getProductId() {
+		return productId;
+	}
+
+	/**
+	 * @param productId the productId to set
+	 */
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 	
 	

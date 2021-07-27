@@ -49,7 +49,11 @@
 			<th th:text="${product.price}"></th>
 			<th th:text="${product.weight}"></th>
 			<th>
-				<button class="btn btn-primary" type="button" data-bs-target="#modal-1" data-bs-toggle="modal">Edit</button>
+				<form method="POST" th:action="@{/r_home/change}" th:object="${changeCount}">
+                   	<p>New Count: <input type="text" id="newAmount" name="newAmount" style="width:40px;"/></p>
+                   	 <input type="hidden" id="productId" name="productId" th:value="${product.number}">
+				   	<button class="btn btn-primary" type="submit">Save</button>
+				</form>
 			</th>
 			
 		</tr>
@@ -64,10 +68,7 @@
                     <h4 class="modal-title">Modal Title</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" th:action="@{/r_home/change}" th:object="${changeCount}">
-                    	<p>New Count: <input type="text" id="newAmount" name="newAmount" /></p>
-					   	<button type="submit">Save Value</button>
-					</form>
+                    
                 </div>
            </div>
         </div>

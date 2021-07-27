@@ -8,12 +8,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import Database.DatabaseInterfacer;
+import application.App;
+
 public class OrderRecord implements Record {
 	
 	
 	private String date;
 	private int ID;
 	private int customerID;
+	
+	private DatabaseInterfacer DBInterfacer;
 	
 	// <part ID, number of part>
 	private HashMap<Integer, Integer> parts;
@@ -28,6 +33,8 @@ public class OrderRecord implements Record {
 		date = rs.getString("date");
 		authorization = rs.getInt("authorization");
 		customerID = rs.getInt("customerID");
+		
+		DBInterfacer = App.getDatabaseInterfacer();
 		
 		parts = new HashMap<Integer, Integer>();
 		
@@ -53,6 +60,7 @@ public class OrderRecord implements Record {
 	 * @param customerID
 	 */
 	public OrderRecord(String date, int iD, HashMap<Integer, Integer> parts, int authorization, int customerID) {
+		DBInterfacer = App.getDatabaseInterfacer();
 		this.date = date;
 		ID = iD;
 		this.parts = parts;
@@ -139,6 +147,30 @@ public class OrderRecord implements Record {
 		return parts;
 	}
 
+	public String getPartDisplay()
+	{
+		String str = "";
+		
+		for(Integer key: parts.keySet())
+		{
+			str += DBInterfacer.getPartRecord(key).getDescription();
+			str += " = count: ";
+			str += parts.get(key) + "\n";
+		}
+		return str;
+	}
+
+	public String getOrderWeight()
+	{
+		double tWeight = 0;
+		
+		for(Integer key: parts.keySet())
+		{
+			tWeight += DBInterfacer.getPartRecord(key).getWeight()*parts.get(key);
+		}
+		
+		return tWeight + "";	
+	}
 
 
 	/**

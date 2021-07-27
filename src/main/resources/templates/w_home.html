@@ -35,6 +35,7 @@
 				<th>Parts</th>
 				<th>Auth Code</th>
 				<th>User ID</th>
+				<th>Order Weight</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -42,9 +43,10 @@
 			<tr th:each="order: ${orders}" >
 				<th th:text="${order.date}"></th>
 				<th th:text="${order.ID}"></th>
-				<th th:text="${order.parts}"></th>
+				<th th:text="${order.getPartDisplay()}" style="white-space: pre;"></th>
 				<th th:text="${order.authorization}"></th>
 				<th th:text="${order.customerID}"></th>
+				<th th:text="${order.getOrderWeight()}"></th>
 				<th>
 				<button class="btn btn-primary" type="button" data-bs-target="#modal-1" data-bs-toggle="modal">Edit</button>
     			</th>

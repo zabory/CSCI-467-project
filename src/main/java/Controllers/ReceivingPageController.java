@@ -29,7 +29,6 @@ public class ReceivingPageController {
 		DBInterfacer = App.getDatabaseInterfacer();
 	}
 	
-<<<<<<< Updated upstream
 	/**
 	 * Processes order record and updates inventory
 	 * @param Oid Order ID
@@ -41,7 +40,4 @@ public class ReceivingPageController {
 		DBInterfacer.update(record);
 		
 	}
-=======
-    
->>>>>>> Stashed changes
 }

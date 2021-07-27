@@ -24,7 +24,7 @@ public class EditDataController {
 
     @PostMapping("/r_home/change")
     public String showPage(@ModelAttribute("countChanger") ReceivingChanger bean) {
-
+    	
         System.out.println("Amount: " + bean.getNewAmount()); //in reality, you'd use a logger instead :)
         return "r_home";
     }  

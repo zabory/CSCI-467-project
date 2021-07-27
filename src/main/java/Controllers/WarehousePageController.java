@@ -48,4 +48,11 @@ public class WarehousePageController {
 			}
 		}
 	}
+	
+	public String printPackingList(int Oid)
+	{
+		OrderRecord record = DBInterfacer.getOrderRecord(Oid);
+		return "DumbCarParts`R`US \nOrder ID: " + Oid + "\t" + DBInterfacer.getCustomerRecord(record.getCustomerID()).getName() + "\n"
+				+ record.getPartDisplay() + "\n" + "Order Weight: " + record.getOrderWeight() + "\n";
+	}
 }

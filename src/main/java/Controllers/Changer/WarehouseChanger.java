@@ -2,21 +2,22 @@ package Controllers.Changer;
 
 
 public class WarehouseChanger {
-	private int productID;
+	private int orderID;
 
-	
-	
 	/**
-	 * @return the productID
+	 * @return the orderID
 	 */
-	public int getProductID() {
-		return productID;
+	public int getOrderID() {
+		return orderID;
 	}
 
 	/**
-	 * @param productID the productID to set
+	 * @param orderID the orderID to set
 	 */
-	public void setProductID(int productID) {
-		this.productID = productID;
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
 	}
+
+	
+	
 }

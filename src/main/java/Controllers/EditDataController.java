@@ -51,7 +51,7 @@ public class EditDataController {
     public String showPageW(@ModelAttribute("countChanger") WarehouseChanger bean, Model model) {
     	
     	try {
-        	processOrder(bean.getProductID());
+        	processOrder(bean.getOrderID());
         }catch(Exception e) {
         	
         }

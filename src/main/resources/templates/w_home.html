@@ -36,7 +36,6 @@
 				<th>Auth Code</th>
 				<th>User ID</th>
 				<th>Order Weight</th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -49,7 +48,7 @@
 				<th th:text="${order.getOrderWeight()}"></th>
 				<th>
 				<form method="POST" th:action="@{/w_home/change}">
-                   	<input type="hidden" id="productId" name="productId" th:value="${order.ID}">
+                   	<input type="hidden" id="orderID" name="orderID" th:value="${order.ID}">
 				   	<button class="btn btn-primary" type="submit">Process</button>
 				</form>
 				</th>

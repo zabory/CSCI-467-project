@@ -44,6 +44,7 @@ public class UserPageController {
     public String addItem(Model model)
     {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
+		System.out.println("fire");
         return "index";
     }
 	/**

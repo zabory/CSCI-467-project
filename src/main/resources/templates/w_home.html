@@ -48,8 +48,11 @@
 				<th th:text="${order.customerID}"></th>
 				<th th:text="${order.getOrderWeight()}"></th>
 				<th>
-				<button class="btn btn-primary" type="button" data-bs-target="#modal-1" data-bs-toggle="modal">Process</button>
-    			</th>
+				<form method="POST" th:action="@{/w_home/change}">
+                   	<input type="hidden" id="productId" name="productId" th:value="${order.ID}">
+				   	<button class="btn btn-primary" type="submit">Process</button>
+				</form>
+				</th>
     			<th>
 				<button class="btn btn-primary" type="button" data-bs-target="#modal-2" data-bs-toggle="modal">Print Packing List</button>
     			</th>
@@ -58,19 +61,6 @@
 		</tbody>
 	</table>
 	</div>  
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Title</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>The content of your modal.</p>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
-            </div>
-        </div>
-    </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
 </body>

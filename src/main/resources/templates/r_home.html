@@ -50,7 +50,7 @@
 			<th th:text="${product.weight}"></th>
 			<th th:text="${product.quantity}"></th>
 			<th>
-				<form method="POST" th:action="@{/r_home/change}" th:object="${changeCount}">
+				<form method="POST" th:action="@{/r_home/change}">
                    	<p>New Count: <input type="text" id="newAmount" name="newAmount" style="width:40px;"/></p>
                    	 <input type="hidden" id="productId" name="productId" th:value="${product.number}">
 				   	<button class="btn btn-primary" type="submit">Save</button>

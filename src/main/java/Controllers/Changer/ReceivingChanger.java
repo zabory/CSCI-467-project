@@ -1,4 +1,4 @@
-package Database.Records;
+package Controllers.Changer;
 
 
 public class ReceivingChanger {

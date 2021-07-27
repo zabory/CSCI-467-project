@@ -32,8 +32,6 @@ public class EditDataController {
 
     @PostMapping("/r_home/change")
     public String showPage(@ModelAttribute("countChanger") ReceivingChanger bean, Model model) {
-    	
-        System.out.println("Amount: " + bean.getNewAmount() + " " + bean.getProductId()); //in reality, you'd use a logger instead :)
         
         updateInventory(Integer.parseInt(bean.getProductId()), Integer.parseInt(bean.getNewAmount()));
 

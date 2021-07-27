@@ -14,13 +14,12 @@
 </head>
 <body>
 	<nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background: #6cddbc;margin-bottom: 94px;">
-	    <div class="container"><a class="navbar-brand" href="#">BUSH and SHRUBS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+	    <div class="container"><a class="navbar-brand" href="/">BUSH and SHRUBS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 	        <div class="collapse navbar-collapse" id="navcol-1">
 	            <ul class="navbar-nav ms-auto">
 	                <li class="nav-item"><a class="nav-link" href="/">Products</a></li>
 	                <li class="nav-item"><a class="nav-link" href="/w_home">Warehouse</a></li>
 	                <li class="nav-item"><a class="nav-link" href="/r_home">Receiving</a></li>
-	                <li class="nav-item"><a class="nav-link" href="#">Help Me</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -31,20 +30,20 @@
             <div class="card-group">
                 <div class="card"><img class="card-img-top w-100 d-block">
                     <div class="card-body">
-                        <h4 class="card-title">Title</h4>
-                        <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><button class="btn btn-primary" type="button">Button</button>
+                        <h4 class="card-title">Work Harder not Smarter</h4>
+                        <p class="card-text">Recent studies have shown that an overwork staff room is good for the companys moral!</p><button class="btn btn-primary" type="button">Button</button>
                     </div>
                 </div>
                 <div class="card"><img class="card-img-top w-100 d-block">
                     <div class="card-body">
-                        <h4 class="card-title">Title</h4>
-                        <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><button class="btn btn-primary" type="button">Button</button>
+                        <h4 class="card-title">Are your employees homeless?</h4>
+                        <p class="card-text">Take this quiz to see if your employees qualify for active duty.</p><button class="btn btn-primary" type="button">Button</button>
                     </div>
                 </div>
                 <div class="card"><img class="card-img-top w-100 d-block">
                     <div class="card-body">
-                        <h4 class="card-title">Title</h4>
-                        <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><button class="btn btn-primary" type="button">Button</button>
+                        <h4 class="card-title">Too many days off?</h4>
+                        <p class="card-text">Don't worry! We have a solution, just send your workers here on Saturdays.</p><button class="btn btn-primary" type="button">Button</button>
                     </div>
                 </div>
             </div>
@@ -123,7 +122,7 @@
 								  <th scope="col">price</th>
 								  <th scope="col">weight</th>
 								  <th scope="col">quantity</th>
-								  <th scope="col">photo</th>
+								  <th scope="col"></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -132,8 +131,9 @@
 							
 								<th th:text="${product.number}"></th>
 								<th th:text="${product.description}"></th>
-								<th th:text="${product.price}"></th>
+								<th th:text="${#numbers.formatCurrency(product.price)}"></th>
 								<th th:text="${product.weight}"></th>
+								<th th:text="${product.quantity}"></th>
 								<th>
 									<button class="btn btn-primary" type="button" data-bs-target="#modal-1" data-bs-toggle="modal">Edit</button>
 								</th>

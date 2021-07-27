@@ -70,6 +70,10 @@ public class OrderRecord implements Record {
 
 
 
+	public OrderRecord() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String insert() {
 		return "INSERT INTO orders VALUES (" + ID + ",'" + partsToJSONString() + "','" + date + "'," + authorization + "," + customerID + ")";
 	}

@@ -10,6 +10,7 @@ import Database.DatabaseInterfacer;
 import Database.Records.PartRecord;
 import application.App;
 
+
 @Controller
 @RequestMapping({"r_home"})
 public class ReceivingPageController {
@@ -19,6 +20,7 @@ public class ReceivingPageController {
 	@RequestMapping
     public String main(Model model) {
         model.addAttribute("products", DBInterfacer.getAllPartRecords());
+        //model.addAttribute("changeCount", new ReceivingChanger());
         return "r_home";
     }
 	
@@ -27,6 +29,7 @@ public class ReceivingPageController {
 		DBInterfacer = App.getDatabaseInterfacer();
 	}
 	
+<<<<<<< Updated upstream
 	/**
 	 * Processes order record and updates inventory
 	 * @param Oid Order ID
@@ -38,4 +41,7 @@ public class ReceivingPageController {
 		DBInterfacer.update(record);
 		
 	}
+=======
+    
+>>>>>>> Stashed changes
 }

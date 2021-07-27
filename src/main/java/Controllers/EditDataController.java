@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import Database.DatabaseInterfacer;
+import Database.Records.PartRecord;
 import Database.Records.ReceivingChanger;
 import application.App;
 
@@ -33,6 +34,8 @@ public class EditDataController {
     public String showPage(@ModelAttribute("countChanger") ReceivingChanger bean, Model model) {
     	
         System.out.println("Amount: " + bean.getNewAmount() + " " + bean.getProductId()); //in reality, you'd use a logger instead :)
+        
+        updateInventory(Integer.parseInt(bean.getProductId()), Integer.parseInt(bean.getNewAmount()));
 
         model.addAttribute("products", DBInterfacer.getAllPartRecords());
         return "r_home";
@@ -41,5 +44,17 @@ public class EditDataController {
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();
+	}
+	
+	/**
+	 * Processes order record and updates inventory
+	 * @param Oid Order ID
+	 */
+	public void updateInventory(int pID, int amount){
+		
+		PartRecord record = DBInterfacer.getPartRecord(pID);
+		record.setQuantity(amount);
+		DBInterfacer.update(record);
+		
 	}
 }

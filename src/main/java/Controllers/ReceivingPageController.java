@@ -29,15 +29,4 @@ public class ReceivingPageController {
 		DBInterfacer = App.getDatabaseInterfacer();
 	}
 	
-	/**
-	 * Processes order record and updates inventory
-	 * @param Oid Order ID
-	 */
-	public void updateInventory(int pID, int amount){
-		
-		PartRecord record = DBInterfacer.getPartRecord(pID);
-		record.setQuantity(amount);
-		DBInterfacer.update(record);
-		
-	}
 }

@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import Controllers.Changer.CustomerChanger;
 import Controllers.Changer.ReceivingChanger;
 import Controllers.Changer.WarehouseChanger;
 import Database.DatabaseInterfacer;
+import Database.Records.CustomerRecord;
 import Database.Records.OrderRecord;
 import Database.Records.PartRecord;
 import application.App;
@@ -60,6 +62,34 @@ public class EditDataController {
         return "w_home";
     }  
     
+
+	@GetMapping("/a_home")
+    public String showPageAC(Model model) {
+        model.addAttribute("cusChanger", new CustomerChanger()); //assume SomeBean has a property called datePlanted
+
+        model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
+        model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
+        model.addAttribute("products", DBInterfacer.getAllPartRecords());
+        return "a_home";
+    }
+
+    @PostMapping("/a_home")
+    public String showPageAC(@ModelAttribute("cusChanger") CustomerChanger bean, Model model) {
+    	
+    	CustomerRecord r = DBInterfacer.getCustomerRecord(bean.getId());
+		r.setName(bean.getName());
+		r.setCity(bean.getCity());
+		r.setStreet(bean.getStreet());
+		r.setContact(bean.getContact());
+		
+		DBInterfacer.update(r);
+
+        model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
+        model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
+        model.addAttribute("products", DBInterfacer.getAllPartRecords());
+        
+        return "a_home";
+    }  
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();

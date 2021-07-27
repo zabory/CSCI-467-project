@@ -66,19 +66,22 @@
 		                       <thead>
 		                           <tr>
 									  <th scope="col">ID</th>
-									  <th scope="col">Name</th>
-									  <th scope="col">City</th>
-									  <th scope="col">Street</th>
-									  <th scope="col">Contact</th>
+									  <th scope="col">Name           City        Street            Contact</th>
 									</tr>
 		                       	</thead>
 		                       <tbody>
 			                    <tr th:each="c: ${customers}">
-									<th th:text="${c.id}">
-									<th th:text="${c.name}">
-									<th th:text="${c.city}">
-									<th th:text="${c.street}">
-									<th th:text="${c.contact}">
+									<th th:text="${c.id}"></th>
+									<th>
+									<form method="POST" th:action="@{/a_home}">
+					                   	<input type="hidden" id="id" name="id" th:value="${c.id}">
+										<input type="text" id="name" name="name" th:value="${c.name}">
+										<input type="text" id="city" name="city" th:value="${c.city}">
+										<input type="text" id="street" name="street" th:value="${c.street}">
+										<input type="text" id="contact" name="contact" th:value="${c.contact}">
+									   	<button class="btn btn-primary" type="submit">Process</button>
+									</form>
+									</th>
 								</tr>
 		                       </tbody>
 		                   </table>

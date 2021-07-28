@@ -11,17 +11,20 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import Controllers.Changer.CartChanger;
+import Controllers.Changer.ReceivingChanger;
 import Database.DatabaseInterfacer;
 import Database.Records.OrderRecord;
 import application.App;
 
 @Controller 
-@RequestMapping({ "/", "/index", "/add" })
+@RequestMapping({ "/", "/index"})
 public class UserPageController {
 	
 	private final static String VENDOR_ID = "";
@@ -36,15 +39,11 @@ public class UserPageController {
 	@RequestMapping
     public String main(Model model) {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
-        return "index";
-    }
-	
-	@GetMapping("/add")
-    @ResponseStatus(value = HttpStatus.OK)
-    public String addItem(Model model)
-    {
-		model.addAttribute("products",DBInterfacer.getAllPartRecords());
-		System.out.println("fire");
+		model.addAttribute("cartChanger", new CartChanger());
+		String a = new String("wow");
+		model.addAttribute("cart", a);
+		System.out.println(model.getAttribute("cart"));
+		
         return "index";
     }
 	/**

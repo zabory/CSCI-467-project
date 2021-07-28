@@ -2,12 +2,14 @@ package Controllers;
 
 import javax.annotation.PostConstruct;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import Controllers.Changer.CartChanger;
 import Controllers.Changer.CustomerChanger;
 import Controllers.Changer.ReceivingChanger;
 import Controllers.Changer.WarehouseChanger;
@@ -90,6 +92,28 @@ public class EditDataController {
         
         return "a_home";
     }  
+    
+    
+    @GetMapping("/add")
+    public String addToCart(Model model) {
+        model.addAttribute("cartChanger", new CartChanger()); //assume SomeBean has a property called datePlanted
+        
+        
+        return "index";
+    }
+
+    @PostMapping("/add")
+    public String addToCart(@ModelAttribute("cartChanger") CartChanger bean, Model model) {
+    	System.out.println(bean.getProductId() + " " + bean.getNewAmount());
+    	//System.out.println(model.getAttribute("cart").toString());
+		System.out.println(model.getAttribute("cart"));
+    	
+        model.addAttribute("products", DBInterfacer.getAllPartRecords());
+        return "index";
+    }  
+    
+    
+    
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();

@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import Controllers.Changer.CartChanger;
 import Controllers.Changer.CustomerChanger;
@@ -94,24 +96,26 @@ public class EditDataController {
     }  
     
     
-    @GetMapping("/add")
-    public String addToCart(Model model) {
-        model.addAttribute("cartChanger", new CartChanger()); //assume SomeBean has a property called datePlanted
-        
-        
+    @PostMapping("/add")
+    public String addToCart(Model model, @RequestParam("productId") String prodID, @RequestParam("newAmount") String newAmount) {
+        //model.addAttribute("cartChanger", new CartChanger()); //assume SomeBean has a property called datePlanted
+        model.addAttribute("products",DBInterfacer.getAllPartRecords());
+        System.out.println("ID: " + prodID + "\tAmount:" + newAmount);
         return "index";
     }
 
-    @PostMapping("/add")
-    public String addToCart(@ModelAttribute("cartChanger") CartChanger bean, Model model) {
-    	System.out.println(bean.getProductId() + " " + bean.getNewAmount());
-    	//System.out.println(model.getAttribute("cart").toString());
-		System.out.println(model.getAttribute("cart"));
-    	
-        model.addAttribute("products", DBInterfacer.getAllPartRecords());
-        return "index";
-    }  
-    
+//    @PostMapping("/add")
+//    public String addToCart(@ModelAttribute("cartChanger") CartChanger bean, Model model, @RequestParam("currentCart") String currentCart) {
+//    	//System.out.println(bean.getProductId() + " " + bean.getNewAmount());
+//    	//System.out.println(model.getAttribute("cart").toString());
+//		//System.out.println(model.getAttribute("cart"));
+//    	
+//    	System.out.println(currentCart);
+//    	
+//        model.addAttribute("products", DBInterfacer.getAllPartRecords());
+//        return "index";
+//    }  
+//    
     
     
 	@PostConstruct

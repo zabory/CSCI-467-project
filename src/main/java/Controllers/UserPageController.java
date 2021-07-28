@@ -39,11 +39,6 @@ public class UserPageController {
 	@RequestMapping
     public String main(Model model) {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
-		model.addAttribute("cartChanger", new CartChanger());
-		String a = new String("wow");
-		model.addAttribute("cart", a);
-		System.out.println(model.getAttribute("cart"));
-		
         return "index";
     }
 	/**

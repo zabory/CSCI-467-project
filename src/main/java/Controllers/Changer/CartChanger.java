@@ -1,12 +1,11 @@
 package Controllers.Changer;
 
-import org.json.JSONObject;
 
 public class CartChanger {
 
 	private String newAmount;
 	private String productId;
-	private JSONObject currentCart;
+	private String currentCart;
 	/**
 	 * @return the newAmount
 	 */
@@ -34,13 +33,13 @@ public class CartChanger {
 	/**
 	 * @return the currentCart
 	 */
-	public JSONObject getCurrentCart() {
+	public String getCurrentCart() {
 		return currentCart;
 	}
 	/**
 	 * @param currentCart the currentCart to set
 	 */
-	public void setCurrentCart(JSONObject currentCart) {
+	public void setCurrentCart(String currentCart) {
 		this.currentCart = currentCart;
 	}
 	

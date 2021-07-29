@@ -8,24 +8,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import Controllers.Changer.CustomerChanger;
 import Database.DatabaseInterfacer;
 import Database.Records.PartRecord;
 import application.App;
 
 @Controller
-@RequestMapping({ "/a_home" })
 public class AdminPageController {
-
+	private double threshold = 50, cost = 10;
 	private DatabaseInterfacer DBInterfacer;
 
-	@RequestMapping
-    public String main(Model model) {
-        model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
-        model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
-        model.addAttribute("products", DBInterfacer.getAllPartRecords());
-        return "a_home";
-    }
+	
+	@GetMapping("/a_home")
+	public String showPageAC(Model model) {
+		model.addAttribute("cusChanger", new CustomerChanger()); // assume SomeBean has a property called datePlanted
+
+		model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
+		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
+		model.addAttribute("products", DBInterfacer.getAllPartRecords());
+        model.addAttribute("threshold",threshold);
+        model.addAttribute("cost",cost);
+		return "a_home";
+	}
 	
 	@GetMapping("/ProductEditing")
 	public String greetingForm(Model model) {
@@ -38,10 +44,53 @@ public class AdminPageController {
 
 		return "results";
 	}
+	
+	@PostMapping("/a_home/shippingChange")
+	public String shippingChange(Model model, @RequestParam("thres") double thres, @RequestParam("cost") double c) {
+		threshold = thres;
+		cost = c;
+
+        model.addAttribute("threshold",threshold);
+        model.addAttribute("cost",cost);
+        
+        model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
+        model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
+        model.addAttribute("products", DBInterfacer.getAllPartRecords());
+		
+		return "a_home";
+	}
 
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();
 	}
 
+	/**
+	 * @return the threshold
+	 */
+	public double getThreshold() {
+		return threshold;
+	}
+
+	/**
+	 * @param threshold the threshold to set
+	 */
+	public void setThreshold(double threshold) {
+		this.threshold = threshold;
+	}
+
+	/**
+	 * @return the cost
+	 */
+	public double getCost() {
+		return cost;
+	}
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
 }

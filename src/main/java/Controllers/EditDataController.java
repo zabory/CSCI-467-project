@@ -68,15 +68,6 @@ public class EditDataController {
 		return "w_home";
 	}
 
-	@GetMapping("/a_home")
-	public String showPageAC(Model model) {
-		model.addAttribute("cusChanger", new CustomerChanger()); // assume SomeBean has a property called datePlanted
-
-		model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
-		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
-		model.addAttribute("products", DBInterfacer.getAllPartRecords());
-		return "a_home";
-	}
 
 	@PostMapping("/a_home")
 	public String showPageAC(@ModelAttribute("cusChanger") CustomerChanger bean, Model model) {

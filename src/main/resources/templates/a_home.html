@@ -40,9 +40,15 @@
                 </div>
                 <div class="card"><img class="card-img-top w-100 d-block">
                     <div class="card-body">
-                        <h4 class="card-title">Too many days off?</h4>
-                        <p class="card-text">Don't worry! We have a solution, just send your workers here on Saturdays.</p><button class="btn btn-primary" type="button">Button</button>
-                    </div>
+                        <h4 class="card-title">Change Shipping Costs</h4>
+                    	<form method="post" th:action="@{/a_home/shippingChange}">
+				    		<label for="thres">Weight Threshold:</label>
+                    		<input type="number" th:value="${threshold}" min="25" max="100" name="thres" id="thres"><br>
+				    		<label for="cost">Shipping Fee per Weight Threshold:</label>
+                    		<input type="number" th:value="${cost}" min="1" max="100" name="cost" id="cost"><br><br>
+							<button class="btn btn-primary" type="submit">Process</button>
+                    	</form>   
+					</div>
                 </div>
             </div>
         </div>

@@ -56,7 +56,6 @@ public class CheckoutController {
 		try {
 			model.addAttribute("d_cart", convertJsonCart(new JSONArray(cart)));
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -110,7 +109,6 @@ public class CheckoutController {
 			try {
 				model.addAttribute("d_cart", convertJsonCart(new JSONArray(cart)));
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return "checkout";
@@ -146,7 +144,6 @@ public class CheckoutController {
 							Integer.parseInt((String) a.getJSONObject(i).get(key))));
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -239,7 +236,6 @@ public class CheckoutController {
 	}
 
 	private double calculateShippingCosts(OrderRecord order) {
-		final double baseShipPerPound = 20.00;
-		return ((int) (Double.parseDouble(order.getOrderWeight()) / 50) + 1) * baseShipPerPound;
+		return ((int) (Double.parseDouble(order.getOrderWeight()) / AdminPageController.getThreshold()) + 1) * AdminPageController.getCost();
 	}
 }

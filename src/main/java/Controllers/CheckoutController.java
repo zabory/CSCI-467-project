@@ -1,5 +1,8 @@
 package Controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -21,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import Controllers.Changer.CartPart;
 import Database.DatabaseInterfacer;
+import Database.Records.CustomerRecord;
 import Database.Records.OrderRecord;
 import Database.Records.PartRecord;
 import application.App;
@@ -30,36 +34,33 @@ public class CheckoutController {
 
 	private final static String VENDOR_ID = "";
 	private DatabaseInterfacer DBInterfacer;
-	
+
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();
 	}
-	
+
 	@GetMapping("/checkout")
 	public String showPageW(Model model) {
-		model.addAttribute("cart", ""); 
-		model.addAttribute("d_cart", new LinkedList<CartPart>()); 
+		model.addAttribute("cart", "");
+		model.addAttribute("d_cart", new LinkedList<CartPart>());
 
 		return "checkout";
 	}
 
 	@PostMapping("/checkout")
 	public String addToCart(Model model, @RequestParam("cart") String cart) {
-		model.addAttribute("cart", cart); 
-		
+		model.addAttribute("cart", cart);
+
 		try {
 			model.addAttribute("d_cart", convertJsonCart(new JSONArray(cart)));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		
-		
+		}
+
 		return "checkout";
 	}
-	
-	
 
 	@PostMapping("/checkout/final")
 	public String checkoutFinal(Model model,
@@ -70,32 +71,71 @@ public class CheckoutController {
 		System.out.println(cart);
 		System.out.println(ccNumber + " " + expirDate);
 		
+		CustomerRecord customer = DBInterfacer.getCustomer(name);
+		
+		if(customer == null) {
+			customer = new CustomerRecord(getOpenCustomerID(), name, city, street, contact);
+			DBInterfacer.insert(customer);
+		}
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+	    Date date = new Date();
+	    HashMap<Integer, Integer> parts = new HashMap<Integer, Integer>();
+	    
+	    JSONArray partsJSON;
+		try {
+			partsJSON = new JSONArray(cart);
+			
+			  for(int i = 0; i < partsJSON.length(); i++) {
+			    	try {
+						parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""), partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
+					} catch (NumberFormatException | JSONException e) {
+						e.printStackTrace();
+					}
+			    }
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}    
+		
+		OrderRecord order = new OrderRecord(formatter.format(date), getOpenOrderID(), parts, 1, customer.getId());
+		
+		double cost = calculateShippingCosts(order) + calculateCost(order);
+		
+		if(validateCreditCard(ccNumber, expirDate, cost, name, System.currentTimeMillis() + "")) {
+			DBInterfacer.insert(order);
+		} else {
+			
+		}
+		
+		
 		return "checkout";
 	}
+
 	/**
 	 * Turns a jsonArray into a linkedList for CartParts
 	 * 
 	 * @param a JSONArray input json
 	 */
-	private LinkedList<CartPart> convertJsonCart(JSONArray a){
+	private LinkedList<CartPart> convertJsonCart(JSONArray a) {
 
-		// display list for the front end 
+		// display list for the front end
 		LinkedList<CartPart> d_cart = new LinkedList<CartPart>();
-		
+
 		// loop through the cart items
 		for (int i = 0; i < a.length(); i++) {
-			//Accessor for key values
+			// Accessor for key values
 			Iterator<?> keys;
 			try {
 				keys = a.getJSONObject(i).keys();
-				
+
 				PartRecord part;
-				
-				//Gets all (only one) of the keys + values
-				while( keys.hasNext() ) {
-				    String key = (String) keys.next();
-				    part = DBInterfacer.getPartRecord(Integer.parseInt(key));
-					d_cart.add(new CartPart(part.getDescription(),Integer.parseInt((String)a.getJSONObject(i).get(key))));
+
+				// Gets all (only one) of the keys + values
+				while (keys.hasNext()) {
+					String key = (String) keys.next();
+					part = DBInterfacer.getPartRecord(Integer.parseInt(key));
+					d_cart.add(new CartPart(part.getDescription(),
+							Integer.parseInt((String) a.getJSONObject(i).get(key))));
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -106,15 +146,15 @@ public class CheckoutController {
 	}
 
 	private boolean validateCreditCard(String ccNumber, String expirDate, double amount, String name, String transID) {
-		
+
 		String postURL = "http://blitz.cs.niu.edu/CreditCard/";
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    
-	    JSONObject body = new JSONObject();
-	    
-	    try {
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		JSONObject body = new JSONObject();
+
+		try {
 			body.put("vendor", VENDOR_ID);
 			body.put("trans", transID);
 			body.put("cc", ccNumber);
@@ -124,7 +164,7 @@ public class CheckoutController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-	    
+
 		HttpEntity<String> request = new HttpEntity<String>(body.toString(), headers);
 		JSONObject result;
 		try {
@@ -138,11 +178,60 @@ public class CheckoutController {
 		return false;
 	}
 	
-	private double calculateShippingCosts(int Oid)
-	{
-		final double baseShipPerPound = 20.00;
-		OrderRecord record = DBInterfacer.getOrderRecord(Oid);
-		return ((int)(Double.parseDouble(record.getOrderWeight()) / 50) + 1)*baseShipPerPound;
+	private double calculateCost(OrderRecord order) {
+		double total = 0;
 		
+		for(Integer x: order.getParts().keySet()) {
+			total += (DBInterfacer.getPartRecord(x).getPrice() * order.getParts().get(x));
+		}
+		
+		return total;
+	}
+	
+	private int getOpenCustomerID() {
+		int id = 1;
+		boolean found = DBInterfacer.getAllCustomerRecords().size() == 0;
+		while(!found) {
+			for(CustomerRecord r : DBInterfacer.getAllCustomerRecords()) {
+				if(r.getId() == id) {
+					found = true;
+					break;
+				}
+			}
+			if(found) {
+				id++;
+				found = false;
+			} else {
+				break;
+			}
+		}
+		
+		return id;
+	}
+	
+	private int getOpenOrderID() {
+		int id = 1;
+		boolean found = DBInterfacer.getAllOrderRecords().size() == 0;
+		while(!found) {
+			for(OrderRecord r : DBInterfacer.getAllOrderRecords()) {
+				if(r.getID() == id) {
+					found = true;
+					break;
+				}
+			}
+			if(found) {
+				id++;
+				found = false;
+			} else {
+				break;
+			}
+		}
+		
+		return id;
+	}
+
+	private double calculateShippingCosts(OrderRecord order) {
+		final double baseShipPerPound = 20.00;
+		return ((int) (Double.parseDouble(order.getOrderWeight()) / 50) + 1) * baseShipPerPound;
 	}
 }

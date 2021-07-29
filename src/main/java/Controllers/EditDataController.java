@@ -24,7 +24,6 @@ import Database.Records.CustomerRecord;
 import Database.Records.OrderRecord;
 import Database.Records.PartRecord;
 import application.App;
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Controller
 public class EditDataController {
@@ -100,10 +99,10 @@ public class EditDataController {
 	@PostMapping("/add")
 	public String addToCart(Model model, @RequestParam("productId") String prodID,
 			@RequestParam("newAmount") String newAmount, @RequestParam("cart") String cart) {
-		
+
 		try {
 			JSONArray cartJSON = new JSONArray(cart);
-			
+
 			LinkedList<JSONObject> cartList = new LinkedList<JSONObject>();
 
 			// load it into a linked list cuz frick arrays
@@ -113,7 +112,7 @@ public class EditDataController {
 
 			// this is the new cart
 			JSONArray newCartList = new JSONArray();
-			
+
 			boolean found = false;
 			// go through the old cart if it had stuff in it
 			if (cartList.size() > 0) {
@@ -129,15 +128,15 @@ public class EditDataController {
 						newCartList.put(j); // dont think so
 					}
 				}
-			} 
-			
-			if(!found){
+			}
+
+			if (!found) {
 				JSONObject newPart = new JSONObject();
 				newPart.put(prodID, newAmount);
 				newCartList.put(newPart);
 			}
 			model.addAttribute("cart", newCartList.toString());
-			model.addAttribute("d_cart",convertJsonCart(newCartList));
+			model.addAttribute("d_cart", convertJsonCart(newCartList));
 
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -145,35 +144,35 @@ public class EditDataController {
 		}
 
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
-		
 
 		return "index";
 	}
-	
+
 	/**
 	 * Turns a jsonArray into a linkedList for CartParts
 	 * 
 	 * @param a JSONArray input json
 	 */
-	public LinkedList<CartPart> convertJsonCart(JSONArray a){
+	public LinkedList<CartPart> convertJsonCart(JSONArray a) {
 
-		// display list for the front end 
+		// display list for the front end
 		LinkedList<CartPart> d_cart = new LinkedList<CartPart>();
-		
+
 		// loop through the cart items
 		for (int i = 0; i < a.length(); i++) {
-			//Accessor for key values
+			// Accessor for key values
 			Iterator<?> keys;
 			try {
 				keys = a.getJSONObject(i).keys();
-				
+
 				PartRecord part;
-				
-				//Gets all (only one) of the keys + values
-				while( keys.hasNext() ) {
-				    String key = (String) keys.next();
-				    part = DBInterfacer.getPartRecord(Integer.parseInt(key));
-					d_cart.add(new CartPart(part.getDescription(),Integer.parseInt((String)a.getJSONObject(i).get(key))));
+
+				// Gets all (only one) of the keys + values
+				while (keys.hasNext()) {
+					String key = (String) keys.next();
+					part = DBInterfacer.getPartRecord(Integer.parseInt(key));
+					d_cart.add(new CartPart(part.getDescription(),
+							Integer.parseInt((String) a.getJSONObject(i).get(key))));
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -182,7 +181,6 @@ public class EditDataController {
 		}
 		return d_cart;
 	}
-	
 
 	@PostConstruct
 	public void initialize() {

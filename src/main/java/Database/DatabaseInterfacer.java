@@ -162,6 +162,27 @@ public class DatabaseInterfacer {
     }
     
     /**
+     * Returns first record to match a customer name
+     * @param name Name of customer
+     * @return Customer record
+     */
+    public synchronized CustomerRecord getCustomer(String name) {
+    	String sql = "select * from customers where name='" + name.replace("'", "''") + "'";
+    	
+    	try {
+			Statement statement = DBConnection.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			if(!rs.isClosed()) {
+				return new CustomerRecord(rs);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	return null;
+    }
+    
+    /**
      * get all the part records
      * @return Linked list of part records
      */

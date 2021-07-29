@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import Database.DatabaseInterfacer;
 
@@ -18,7 +17,6 @@ public class App {
 		//AnnotationConfigApplicationContext c = new AnnotationConfigApplicationContext();
 		SpringApplication s = new SpringApplication(App.class);
 		Properties config = new Properties();
-		config.setProperty("cart", "1:12;");
 		config.setProperty("spring.main.banner-mode", "off");
 		
 		s.setDefaultProperties(config);

@@ -4,22 +4,15 @@ import javax.annotation.PostConstruct;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import Controllers.Changer.CartChanger;
-import Controllers.Changer.ReceivingChanger;
 import Database.DatabaseInterfacer;
 import Database.Records.OrderRecord;
 import application.App;
@@ -40,7 +33,7 @@ public class UserPageController {
 	@RequestMapping
     public String main(Model model) {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
-		model.addAttribute("cart","");
+		model.addAttribute("cart","[]");
 		System.out.println("hi");
         return "index";
     }

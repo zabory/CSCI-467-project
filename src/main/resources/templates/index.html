@@ -15,7 +15,6 @@
 	    <div class="container"><a class="navbar-brand" href="#">DUMB CAR PARTS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 	        <div class="collapse navbar-collapse" id="navcol-1">
 	            <ul class="navbar-nav ms-auto">
-	                <li class="nav-item"><a class="nav-link" href="#">Cart</a></li>
 	                <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
 	                <li class="nav-item"><a class="nav-link" href="/a_home">Admin</a></li>
 	            </ul>
@@ -23,10 +22,20 @@
 	    </div>
 	</nav>
 	
-    
 	<div class="row ">
-	    <div class="col">
-		    <div class ="container-fluid py-5 bg-faded">
+	    <div class="col-2">
+	    
+			<div th:each="d: ${d_cart}">
+				<p class="text-center fw-bold" th:text="${d.name} + ': x' + ${d.count}"></p>
+			</div>
+			<form class="text-center" method="POST" th:action="@{/checkout}">
+			    <input class="" type="hidden" th:value="${cart}" id="cartJson" name="cartJson"/>
+			    <input class="btn btn-primary justify-content-center"  type="submit" value="Buy Now" />
+			</form>
+			
+	    </div>
+	    <div class="col-10">
+		    <div class ="container py-5 bg-faded">
 				<div class="card-column">
 					<div  th:each="product: ${products}" class="card">
 						<img class="card-img" th:src="${product.pictureURL}">
@@ -35,10 +44,10 @@
 							<p class="card-text" th:text="${#numbers.formatCurrency(product.price)}">Wow</p>
 							
 							<form method="POST" th:action="@{/add}">
-							    <input class="" type="number" value="1" style="width:60px;" id="newAmount" name="newAmount"/>
+							    <input class="" type="number" value="1" min="1" max="500" style="width:60px;" id="newAmount" name="newAmount"/>
 							    <input class="" type="hidden" th:value="${product.number}" id="productId" name="productId"/>
 							    <input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
-							    <input class="btn btn-primary" type="submit" value="BUY ME" />
+							    <input class="btn btn-primary" type="submit" value="Add to Cart" />
 							</form>
 							<!--  <input class="" type="hidden" th:value="${cart.currentCart}" id="productId" name="productId"/>
 							    

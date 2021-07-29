@@ -1,5 +1,7 @@
 package Controllers;
 
+import java.util.LinkedList;
+
 import javax.annotation.PostConstruct;
 
 import org.json.JSONException;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import Controllers.Changer.CartPart;
 import Database.DatabaseInterfacer;
 import Database.Records.OrderRecord;
 import application.App;
@@ -34,6 +37,7 @@ public class UserPageController {
     public String main(Model model) {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
 		model.addAttribute("cart","[]");
+		model.addAttribute("d_cart",new LinkedList<CartPart>());
         return "index";
     }
 	/**

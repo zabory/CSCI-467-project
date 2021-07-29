@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import Controllers.Changer.CartPart;
 import Controllers.Changer.CustomerChanger;
 import Controllers.Changer.ReceivingChanger;
 import Controllers.Changer.WarehouseChanger;
@@ -22,6 +24,7 @@ import Database.Records.CustomerRecord;
 import Database.Records.OrderRecord;
 import Database.Records.PartRecord;
 import application.App;
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Controller
 public class EditDataController {
@@ -97,9 +100,10 @@ public class EditDataController {
 	@PostMapping("/add")
 	public String addToCart(Model model, @RequestParam("productId") String prodID,
 			@RequestParam("newAmount") String newAmount, @RequestParam("cart") String cart) {
+		
 		try {
 			JSONArray cartJSON = new JSONArray(cart);
-
+			
 			LinkedList<JSONObject> cartList = new LinkedList<JSONObject>();
 
 			// load it into a linked list cuz frick arrays
@@ -122,7 +126,7 @@ public class EditDataController {
 						found = true;
 					} else {
 						// otherwise add the old thing to the new cart
-						newCartList.put(j);
+						newCartList.put(j); // dont think so
 					}
 				}
 			} 
@@ -132,8 +136,8 @@ public class EditDataController {
 				newPart.put(prodID, newAmount);
 				newCartList.put(newPart);
 			}
-			
 			model.addAttribute("cart", newCartList.toString());
+			model.addAttribute("d_cart",convertJsonCart(newCartList));
 
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -141,9 +145,44 @@ public class EditDataController {
 		}
 
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
+		
 
 		return "index";
 	}
+	
+	/**
+	 * Turns a jsonArray into a linkedList for CartParts
+	 * 
+	 * @param a JSONArray input json
+	 */
+	private LinkedList<CartPart> convertJsonCart(JSONArray a){
+
+		// display list for the front end 
+		LinkedList<CartPart> d_cart = new LinkedList<CartPart>();
+		
+		// loop through the cart items
+		for (int i = 0; i < a.length(); i++) {
+			//Accessor for key values
+			Iterator<?> keys;
+			try {
+				keys = a.getJSONObject(i).keys();
+				
+				PartRecord part;
+				
+				//Gets all (only one) of the keys + values
+				while( keys.hasNext() ) {
+				    String key = (String) keys.next();
+				    part = DBInterfacer.getPartRecord(Integer.parseInt(key));
+					d_cart.add(new CartPart(part.getDescription(),Integer.parseInt((String)a.getJSONObject(i).get(key))));
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return d_cart;
+	}
+	
 
 	@PostConstruct
 	public void initialize() {

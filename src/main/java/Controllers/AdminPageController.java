@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Controllers.Changer.CustomerChanger;
@@ -17,7 +16,7 @@ import application.App;
 
 @Controller
 public class AdminPageController {
-	private double threshold = 50, cost = 10;
+	private static double threshold = 50, cost = 10;
 	private DatabaseInterfacer DBInterfacer;
 
 	
@@ -68,29 +67,15 @@ public class AdminPageController {
 	/**
 	 * @return the threshold
 	 */
-	public double getThreshold() {
+	public static double getThreshold() {
 		return threshold;
-	}
-
-	/**
-	 * @param threshold the threshold to set
-	 */
-	public void setThreshold(double threshold) {
-		this.threshold = threshold;
 	}
 
 	/**
 	 * @return the cost
 	 */
-	public double getCost() {
+	public static double getCost() {
 		return cost;
-	}
-
-	/**
-	 * @param cost the cost to set
-	 */
-	public void setCost(double cost) {
-		this.cost = cost;
 	}
 	
 }

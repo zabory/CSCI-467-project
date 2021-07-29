@@ -29,7 +29,7 @@
 				<p class="text-center fw-bold" th:text="${d.name} + ': x' + ${d.count}"></p>
 			</div>
 			<form class="text-center" method="POST" th:action="@{/checkout}">
-			    <input class="" type="hidden" th:value="${cart}" id="cartJson" name="cartJson"/>
+			    <input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
 			    <input class="btn btn-primary justify-content-center"  type="submit" value="Buy Now" />
 			</form>
 			

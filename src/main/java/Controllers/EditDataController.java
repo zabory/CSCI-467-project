@@ -155,7 +155,7 @@ public class EditDataController {
 	 * 
 	 * @param a JSONArray input json
 	 */
-	private LinkedList<CartPart> convertJsonCart(JSONArray a){
+	public LinkedList<CartPart> convertJsonCart(JSONArray a){
 
 		// display list for the front end 
 		LinkedList<CartPart> d_cart = new LinkedList<CartPart>();

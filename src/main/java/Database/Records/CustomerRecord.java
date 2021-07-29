@@ -1,6 +1,5 @@
 package Database.Records;
 
-import java.util.List;  
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,7 +10,6 @@ public class CustomerRecord implements Record {
 	private String city;
 	private String street;
 	private String contact;
-	private List<Integer> cart[];
 	
 	/**
 	 * @param rs Result set holding the database record

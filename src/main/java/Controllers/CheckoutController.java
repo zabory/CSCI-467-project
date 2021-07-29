@@ -51,6 +51,7 @@ public class CheckoutController {
 	@PostMapping("/checkout")
 	public String addToCart(Model model, @RequestParam("cart") String cart) {
 		model.addAttribute("cart", cart);
+		model.addAttribute("cc_error",false);
 
 		try {
 			model.addAttribute("d_cart", convertJsonCart(new JSONArray(cart)));
@@ -104,9 +105,16 @@ public class CheckoutController {
 		if(validateCreditCard(ccNumber, expirDate, cost, name, System.currentTimeMillis() + "")) {
 			DBInterfacer.insert(order);
 		} else {
-			
+			model.addAttribute("cc_error",true);
+			model.addAttribute("cart",cart);
+			try {
+				model.addAttribute("d_cart", convertJsonCart(new JSONArray(cart)));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "checkout";
 		}
-		
 		
 		return "checkout";
 	}

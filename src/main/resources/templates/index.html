@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background: #6cddbc;margin-bottom: 94px;">
+	<nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background: rgb(48, 207, 159);margin-bottom: 65px;">
 	    <div class="container"><a class="navbar-brand" href="#">DUMB CAR PARTS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 	        <div class="collapse navbar-collapse" id="navcol-1">
 	            <ul class="navbar-nav ms-auto">
@@ -24,24 +24,27 @@
 	
 	<div class="row ">
 	    <div class="col-2">
-	    
-			<div th:each="d: ${d_cart}">
-				<p class="text-center fw-bold" th:text="${d.name} + ': x' + ${d.count}"></p>
+	    	<div class="container  border border-dark rounded-3" style="background: #6cddbc; margin:20px 0px 10px 0px">
+		    	<h4 class="text-center bg-white fw-bold border border-dark " style="margin: 10px 60px 10px 60px">Cart</h4>
+		    
+				<div th:each="d: ${d_cart}">
+					<p class="text-center fw-bold" th:text="${d.name} + ': x' + ${d.count}"></p>
+				</div>
+				<form class="text-center" method="POST" th:action="@{/checkout}">
+				    <input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
+				    <input class="btn btn-primary justify-content-center"  type="submit" value="Buy Now" />
+				</form>
 			</div>
-			<form class="text-center" method="POST" th:action="@{/checkout}">
-			    <input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
-			    <input class="btn btn-primary justify-content-center"  type="submit" value="Buy Now" />
-			</form>
-			
 	    </div>
 	    <div class="col-10">
-		    <div class ="container py-5 bg-faded">
-				<div class="card-column">
-					<div  th:each="product: ${products}" class="card">
+		    <div class ="container py-5 bg-faded" style="background: #6cddbc;">
+				<div class="card-column" >
+					<div  th:each="product: ${products}" th:if="${product.quantity > 0}" class="card  border border-dark rounded-3" style="margin: 10px;">
 						<img class="card-img" th:src="${product.pictureURL}">
 						<div class="card-body">
 						<h4 class="card-title"th:text="${product.description}">Wow</h4>
 							<p class="card-text" th:text="${#numbers.formatCurrency(product.price)}">Wow</p>
+							<p class="card-text" th:text="'In Stock: ' + ${product.quantity}"></p>
 							
 							<form method="POST" th:action="@{/add}">
 							    <input class="" type="number" value="1" min="1" max="500" style="width:60px;" id="newAmount" name="newAmount"/>

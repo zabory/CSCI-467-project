@@ -12,7 +12,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background: #6cddbc;margin-bottom: 94px;">
-	    <div class="container"><a class="navbar-brand" href="#">DUMB CAR PARTS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+	    <div class="container"><a class="navbar-brand" href="/">DUMB CAR PARTS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 	        <div class="collapse navbar-collapse" id="navcol-1">
 	            <ul class="navbar-nav ms-auto">
 	                <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
@@ -21,6 +21,8 @@
 	        </div>
 	    </div>
 	</nav>
+	<h4 class = "text-center text-danger" th:if="${cc_error}">CREDIT CARD INFO FAILED, TRY AGAIN!</h4>
+	
 	
 	<div class="row ">
 		<div class="col-3">

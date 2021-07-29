@@ -3,6 +3,7 @@ package Controllers;
 import javax.annotation.PostConstruct;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,31 +92,36 @@ public class EditDataController {
         model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
         model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
         model.addAttribute("products", DBInterfacer.getAllPartRecords());
+
         
         return "a_home";
     }  
     
     
-    @PostMapping("/add")
-    public String addToCart(Model model, @RequestParam("productId") String prodID, @RequestParam("newAmount") String newAmount) {
-        //model.addAttribute("cartChanger", new CartChanger()); //assume SomeBean has a property called datePlanted
-        model.addAttribute("products",DBInterfacer.getAllPartRecords());
-        System.out.println("ID: " + prodID + "\tAmount:" + newAmount);
-        return "index";
-    }
-
 //    @PostMapping("/add")
-//    public String addToCart(@ModelAttribute("cartChanger") CartChanger bean, Model model, @RequestParam("currentCart") String currentCart) {
-//    	//System.out.println(bean.getProductId() + " " + bean.getNewAmount());
-//    	//System.out.println(model.getAttribute("cart").toString());
-//		//System.out.println(model.getAttribute("cart"));
+//    public String showPageW(@ModelAttribute("newCart") CartChanger bean, @RequestParam("oldCart") String s, Model model) {
 //    	
-//    	System.out.println(currentCart);
+//    	System.out.println(bean);
 //    	
 //        model.addAttribute("products", DBInterfacer.getAllPartRecords());
+//		model.addAttribute("newCart", new CartChanger("123:1;"));
+//
+//		model.addAttribute("oldCart", new CartChanger("123:1;"));
 //        return "index";
 //    }  
-//    
+    
+    
+    @PostMapping("/add")
+    public String addToCart(Model model, @RequestParam("productId") String prodID, @RequestParam("newAmount") String newAmount,  @RequestParam("cart") String cart) {
+    	
+    	cart += "1";
+    	System.out.println("cart: " + cart + "ID: " + prodID + "\tAmount:" + newAmount);
+
+        model.addAttribute("products",DBInterfacer.getAllPartRecords());
+        model.addAttribute("cart",cart);
+        
+        return "index";
+    }
     
     
 	@PostConstruct

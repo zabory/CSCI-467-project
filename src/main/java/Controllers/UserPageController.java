@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,8 @@ public class UserPageController {
 	@RequestMapping
     public String main(Model model) {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
+		model.addAttribute("cart","");
+		System.out.println("hi");
         return "index";
     }
 	/**
@@ -50,6 +53,7 @@ public class UserPageController {
 	 * @param transID
 	 * @return
 	 */
+	
 	private boolean validateCreditCard(String ccNumber, String expirDate, double amount, String name, String transID) {
 		
 		String postURL = "http://blitz.cs.niu.edu/CreditCard/";

@@ -5,7 +5,11 @@ public class CartChanger {
 
 	private String newAmount;
 	private String productId;
-	private String currentCart;
+	private String currentCart = "";
+	
+	public CartChanger(String string) {
+		currentCart = string;
+	}
 	/**
 	 * @return the newAmount
 	 */

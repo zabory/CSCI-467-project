@@ -78,7 +78,7 @@ public class CheckoutController {
 			DBInterfacer.insert(customer);
 		}
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");  
 	    Date date = new Date();
 	    HashMap<Integer, Integer> parts = new HashMap<Integer, Integer>();
 	    
@@ -113,6 +113,8 @@ public class CheckoutController {
 			}
 			return "checkout";
 		}
+		
+		EmailController.doSendEmail(contact, "Oh no, why did you submit an order to us?", "Your order has been submitted!");
 		
 		return "checkout";
 	}

@@ -203,6 +203,8 @@ public class EditDataController {
 		if (record.getAuthorization() == 1) {
 			// ready to process
 			record.setAuthorization(2);
+			
+			EmailController.doSendEmail(DBInterfacer.getCustomerRecord(record.getCustomerID()).getContact(), "Welp, we did it.", "Its coming.");
 
 			DBInterfacer.update(record);
 			// update inventory in DB

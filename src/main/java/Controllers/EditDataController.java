@@ -94,18 +94,6 @@ public class EditDataController {
 		return "a_home";
 	}
 
-//    @PostMapping("/add")
-//    public String showPageW(@ModelAttribute("newCart") CartChanger bean, @RequestParam("oldCart") String s, Model model) {
-//    	
-//    	System.out.println(bean);
-//    	
-//        model.addAttribute("products", DBInterfacer.getAllPartRecords());
-//		model.addAttribute("newCart", new CartChanger("123:1;"));
-//
-//		model.addAttribute("oldCart", new CartChanger("123:1;"));
-//        return "index";
-//    }  
-
 	@PostMapping("/add")
 	public String addToCart(Model model, @RequestParam("productId") String prodID,
 			@RequestParam("newAmount") String newAmount, @RequestParam("cart") String cart) {
@@ -146,8 +134,6 @@ public class EditDataController {
 			}
 			
 			model.addAttribute("cart", newCartList.toString());
-
-			System.out.println("cart: " + newCartList.toString());
 
 		} catch (JSONException e) {
 			e.printStackTrace();

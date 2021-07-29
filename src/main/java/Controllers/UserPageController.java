@@ -34,7 +34,6 @@ public class UserPageController {
     public String main(Model model) {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
 		model.addAttribute("cart","[]");
-		System.out.println("hi");
         return "index";
     }
 	/**

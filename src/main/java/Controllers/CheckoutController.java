@@ -267,7 +267,6 @@ public class CheckoutController {
 	}
 
 	private double calculateShippingCosts(OrderRecord order) {
-		System.out.println(order.getOrderWeight());
 		return ((int) (Double.parseDouble(order.getOrderWeight()) / AdminPageController.getThreshold()) + 1) * AdminPageController.getCost();
 	}
 	

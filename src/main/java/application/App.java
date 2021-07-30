@@ -19,6 +19,7 @@ public class App {
 		Properties config = new Properties();
 		config.setProperty("spring.main.banner-mode", "off");
 		config.setProperty("logging.level.root", "INFO");
+		config.setProperty("server.port", "85");
 		
 		s.setDefaultProperties(config);
 		s.run(args);

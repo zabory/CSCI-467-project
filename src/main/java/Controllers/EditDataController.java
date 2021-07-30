@@ -72,11 +72,18 @@ public class EditDataController {
 	@PostMapping("/a_home/editProduct")
 	public String editProduct(@ModelAttribute("ProductChanger") ProductChanger t,Model model) {
 		
+		PartRecord record = DBInterfacer.getPartRecord(t.getNumber());
+		
+		record.setDescription(t.getDescription());
+		record.setPrice(t.getPrice());
+		record.setWeight(t.getWeight());
+		record.setQuantity(t.getQuantity());
+		
+		DBInterfacer.update(record);
+		
 		model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
 		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
-		
-		
 		
 		return "a_home";
 	}

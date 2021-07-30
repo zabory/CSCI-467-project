@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Controllers.Changer.CustomerChanger;
+import Controllers.Changer.ProductChanger;
 import Database.DatabaseInterfacer;
 import Database.Records.PartRecord;
 import application.App;
@@ -29,19 +30,8 @@ public class AdminPageController {
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
         model.addAttribute("threshold",threshold);
         model.addAttribute("cost",cost);
+        model.addAttribute("ProductChanger", new ProductChanger());
 		return "a_home";
-	}
-	
-	@GetMapping("/ProductEditing")
-	public String greetingForm(Model model) {
-
-		return "ProductEditing";
-	}
-
-	@PostMapping("/ProductEditing")
-	public String greetingSubmit(@ModelAttribute PartRecord record, Model model) {
-
-		return "results";
 	}
 	
 	@PostMapping("/a_home/shippingChange")

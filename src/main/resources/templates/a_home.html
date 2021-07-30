@@ -36,24 +36,30 @@
                 <div class="card"><img class="card-img-top w-100 d-block">
                     <div class="card-body">
                         <h4 class="card-title">Work Harder not Smarter</h4>
-                        <p class="card-text">Recent studies have shown that an overwork staff room is good for the companys moral!</p><button class="btn btn-primary" type="button">Button</button>
+                        <p class="card-text">Recent studies have shown that an overwork staff room is good for the companys moral!</p>
+                        <form class="middle-align text-center" action="https://getlighthouse.com/blog/low-employee-morale/" target="_blank">
+                        	<button class="btn btn-primary" type="submit">Check it out!</button>
+						</form>
                     </div>
                 </div>
                 <div class="card"><img class="card-img-top w-100 d-block">
                     <div class="card-body">
                         <h4 class="card-title">Are your employees homeless?</h4>
-                        <p class="card-text">Take this quiz to see if your employees qualify for active duty.</p><button class="btn btn-primary" type="button">Button</button>
+                        <p class="card-text">Take this quiz to see if your employees qualify for active duty.</p>
+						<form class="middle-align text-center" action="https://www.goarmy.com/" target="_blank">
+                        	<button class="btn btn-primary " type="submit">Best Choice!</button>
+						</form>
                     </div>
                 </div>
                 <div class="card"><img class="card-img-top w-100 d-block">
                     <div class="card-body">
                         <h4 class="card-title">Change Shipping Costs</h4>
-                    	<form method="post" th:action="@{/a_home/shippingChange}">
+                    	<form  method="post" th:action="@{/a_home/shippingChange}">
 				    		<label for="thres">Weight Threshold:</label>
                     		<input type="number" th:value="${threshold}" min="25" max="100" name="thres" id="thres"><br>
 				    		<label for="cost">Shipping Fee per Weight Threshold:</label>
                     		<input type="number" th:value="${cost}" min="1" max="100" name="cost" id="cost"><br><br>
-							<button class="btn btn-primary" type="submit">Process</button>
+							<button class="btn btn-primary" type="submit">Update New Costs</button>
                     	</form>   
 					</div>
                 </div>
@@ -90,7 +96,7 @@
 									<th><input type="text" id="name" name="name" th:value="${c.name}"> </th>
 									<th><input type="text" id="city" name="city" th:value="${c.city}"></th>
 									<th><input type="text" id="street" name="street" th:value="${c.street}"></th>
-									<th><input type="text" id="contact" name="contact" th:value="${c.contact}"></th>
+									<th><input type="text" id="contact" name="contact" th:value="${c.contact}" style="width:140px"></th>
 									<th><button class="btn btn-primary" type="submit">Save</button></th>
 								</form>
 							</tr>
@@ -142,9 +148,9 @@
 									<th th:text="${product.number}"></th>
 					                <input type="hidden" id="number" name="number" th:value="${product.number}"></th>
 									<th><input type="text" id="description" name="description" th:value="${product.description}"> </th>
-									<th><input type="text" id="price" name="price" th:value="${product.price}"></th>
-									<th><input type="text" id="weight" name="weight" th:value="${product.weight}"></th>
-									<th><input type="text" id="quantity" name="quantity" th:value="${product.quantity}"></th>
+									<th><input type="number" id="price" name="price" th:value="${product.price}" style="width:80px"></th>
+									<th><input type="number" id="weight" name="weight" th:value="${product.weight}" style="width:80px"></th>
+									<th><input type="number" id="quantity" name="quantity" th:value="${product.quantity}" style="width:80px"></th>
 									<th><button class="btn btn-primary" type="submit">Save</button></th>
 								</form>
 							</tr>

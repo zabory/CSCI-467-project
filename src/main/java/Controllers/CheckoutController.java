@@ -147,7 +147,7 @@ public class CheckoutController {
 				while (keys.hasNext()) {
 					String key = (String) keys.next();
 					part = DBInterfacer.getPartRecord(Integer.parseInt(key));
-					d_cart.add(new CartPart(part.getDescription(),
+					d_cart.add(new CartPart(part.getNumber(), part.getDescription(),
 							Integer.parseInt((String) a.getJSONObject(i).get(key))));
 				}
 			} catch (JSONException e) {

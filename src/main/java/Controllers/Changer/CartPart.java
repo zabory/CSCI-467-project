@@ -3,6 +3,7 @@ package Controllers.Changer;
 
 
 public class CartPart {
+	private int id;
 	private String name;
 	private int count;
 	
@@ -11,26 +12,29 @@ public class CartPart {
 	 * @param name
 	 * @param count
 	 */
-	public CartPart(String name, int count) {
-		this.name = name;
-		this.count = count;
-	}
 
 	/**
+	 * @param j 
+	 * @param string 
+	 * @param i 
 	 * @param name
 	 * @param count
 	 */
-	public CartPart() {
-		this.name = "";
-		this.count = 0;
+	public CartPart(int i, String string, int j) {
+		this.id = i;
+		this.name = string;
+		this.count = j;
 	}
 	
 	
 	
 	@Override
 	public String toString() {
-		return "CartPart [name=" + name + ", count=" + count + "]";
+		return "CartPart [id=" + id + ", name=" + name + ", count=" + count + "]";
 	}
+
+
+
 	/**
 	 * @return the name
 	 */
@@ -54,6 +58,20 @@ public class CartPart {
 	 */
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

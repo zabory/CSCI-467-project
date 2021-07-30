@@ -86,7 +86,8 @@ public class EditDataController {
 			parts.add(DBInterfacer.getPartRecord(x));
 		}
 		
-		ByteArrayInputStream bis = PackingListGenerator.GeneratePackingList(DBInterfacer.getCustomerRecord(order.getCustomerID()).getName(), DBInterfacer.getCustomerRecord(order.getCustomerID()).getStreet(), DBInterfacer.getCustomerRecord(order.getCustomerID()).getCity(), parts, order.getParts());
+		CustomerRecord r = DBInterfacer.getCustomerRecord(order.getCustomerID());
+		ByteArrayInputStream bis = PackingListGenerator.GeneratePackingList(r.getName(), r.getStreet(), r.getCity(), parts, order.getParts());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Disposition", "inline; filename=PackingList.pdf");
@@ -187,7 +188,29 @@ public class EditDataController {
 
 		return "index";
 	}
-
+	
+	
+	@PostMapping("/remove")
+	public String addToCart(Model model, @RequestParam("productId") String prodID, @RequestParam("cart") String cart) {
+		System.out.println(prodID + ' ' + cart);
+		try {
+			JSONArray newCart = new JSONArray(), oldCart = new JSONArray(cart);
+			
+			for(int i=0; i < oldCart.length(); i++) {
+				if(!oldCart.getJSONObject(i).names().get(0).equals(prodID)) {
+					newCart.put(oldCart.get(i));
+				}
+			}
+			
+			model.addAttribute("d_cart", convertJsonCart(newCart));
+			model.addAttribute("cart", newCart.toString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.addAttribute("products", DBInterfacer.getAllPartRecords());
+		return "index";
+	}
 	/**
 	 * Turns a jsonArray into a linkedList for CartParts
 	 * 
@@ -211,7 +234,7 @@ public class EditDataController {
 				while (keys.hasNext()) {
 					String key = (String) keys.next();
 					part = DBInterfacer.getPartRecord(Integer.parseInt(key));
-					d_cart.add(new CartPart(part.getDescription(),
+					d_cart.add(new CartPart(part.getNumber(), part.getDescription(),
 							Integer.parseInt((String) a.getJSONObject(i).get(key))));
 				}
 			} catch (JSONException e) {

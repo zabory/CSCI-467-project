@@ -26,20 +26,25 @@
 	
 	<div class="row ">
 		<div class="col-3 container  border border-dark rounded-3" style="background: #6cddbc; margin:20px 0px 10px 0px">
-	    	<h3 class="text-center fw-bold" style="margin: 10px 60px 10px 60px">Cart</h3>
+	    	<hr><h2 class="text-center fw-bold" style="margin: 10px 60px 10px 60px">Cart</h2><hr>
 	    
 			<div th:each="d: ${d_cart}">
 				<p class="text-center fw-bold rounded" th:text="${d.name} + ': x' + ${d.count}" style="background: rgb(167, 235, 215);"></p>
 			</div>
 			<hr>
-			<p class="text-center fw-bold" th:text="'Total amount in cart: ' + ${#numbers.formatCurrency(cart_total)}" style="background: rgb(167, 235, 215);" >Wow</p>
-			<p class="text-center fw-bold" th:text="'Shipping cost: ' + ${#numbers.formatCurrency(shipping_total)}" style="background: rgb(167, 235, 215);">Wow</p>
+			<p class="text-center fw-bold" th:text="'Total amount in cart: ' + ${#numbers.formatCurrency(cart_total)}" 
+			   style="background: rgb(167, 235, 215); font-size:20px;" ></p>
+			<p class="text-center fw-bold" th:text="'Shipping cost: ' + ${#numbers.formatCurrency(shipping_total)}" 
+			   style="background: rgb(167, 235, 215); font-size:20px;"></p>
+			   <hr>
+			<p class="text-center fw-bold" th:text="'Total: ' + ${#numbers.formatCurrency(cart_total + shipping_total)}" 
+			   style="background: rgb(167, 235, 215); font-size:24px;"></p>
 		</div>
-		<div class="col-8 offset-1">
-		    <form class="form-group" method="POST" th:action="@{/checkout/final}" >
-		    	<div class="row border border-success" >
-			    	<div class="col-3" style="background: #6cddbc;">
-			    		<h5> Shipping Information</h5>
+		<div class="col-8 offset-1 border border-dark rounded"  style="background: #6cddbc;padding-top:20px;">
+		    <form class="form-group" method="POST" th:action="@{/checkout/final}" ><hr>
+		    	<div class="row " style="padding:50px;">
+			    	<div class="col-6">
+			    		<h4 class="fw-bold"> Shipping Information</h4>
 				    	<label for="name">First name:</label><br>
 		  				<input type="text" id="name" name="name" required><br>
 				    	<label for="street">Street Address:</label><br>
@@ -51,16 +56,16 @@
 		  				<input type="hidden" th:value="${cart}" id="cart" name="cart">
 		  				<br>
 	  				</div>
-			    	<div class="col-3" style="background: #6cddbc;">
+			    	<div class="col-4">
 			    	
-			    		<h5> Credit Card Information</h5>
+			    		<h4 class="fw-bold"> Credit Card Information</h4>
 				    	<label for="ccNumber">Credit Card Number:</label><br>
 		  				<input type="text" id="ccNumber" name="ccNumber" required><br>
 				    	<label for="expirDate">Expiration Date:</label><br>
 		  				<input type="text" id="expirDate" name="expirDate" required><br>
 			    	</div>
+					<input class="btn btn-primary" type="submit" value="Checkout!" style="height:60px; margin-bottom:30px;" /><hr>
 		    	</div>
-				<input class="btn btn-primary" type="submit" value="FINALLY" />
 		    </form> 
 		</div>
 	</div>

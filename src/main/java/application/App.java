@@ -18,7 +18,7 @@ public class App {
 		SpringApplication s = new SpringApplication(App.class);
 		Properties config = new Properties();
 		config.setProperty("spring.main.banner-mode", "off");
-		config.setProperty("logging.level.root", "ERROR");
+		config.setProperty("logging.level.root", "INFO");
 		
 		s.setDefaultProperties(config);
 		s.run(args);

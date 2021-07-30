@@ -83,6 +83,8 @@ public class EditDataController {
 		model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
 		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
+		model.addAttribute("threshold", AdminPageController.getThreshold());
+        model.addAttribute("cost", AdminPageController.getCost());
 
 		return "a_home";
 	}

@@ -33,7 +33,7 @@ public class PackingListGenerator {
 
 		try {
 			
-			PdfWriter writer = PdfWriter.getInstance(document, out);
+			PdfWriter.getInstance(document, out);
 			document.open();
 			
 			/**

@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.io.ByteArrayInputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -8,6 +9,10 @@ import javax.annotation.PostConstruct;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +30,7 @@ import Database.Records.CustomerRecord;
 import Database.Records.OrderRecord;
 import Database.Records.PartRecord;
 import application.App;
+import packing.PackingListGenerator;
 
 @Controller
 public class EditDataController {
@@ -69,27 +75,46 @@ public class EditDataController {
 		return "w_home";
 	}
 
+	@GetMapping("w_home/packingList")
+	public ResponseEntity<InputStreamResource> processPackingList(@RequestParam("orderID") String orderID) {
+		
+		OrderRecord order = DBInterfacer.getOrderRecord(Integer.parseInt(orderID));
+		
+		LinkedList<PartRecord> parts = new LinkedList<PartRecord>();
+		
+		for(Integer x : order.getParts().keySet()) {
+			parts.add(DBInterfacer.getPartRecord(x));
+		}
+		
+		ByteArrayInputStream bis = PackingListGenerator.GeneratePackingList(DBInterfacer.getCustomerRecord(order.getCustomerID()).getName(), DBInterfacer.getCustomerRecord(order.getCustomerID()).getStreet(), DBInterfacer.getCustomerRecord(order.getCustomerID()).getCity(), parts, order.getParts());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Disposition", "inline; filename=PackingList.pdf");
+
+		return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+				.body(new InputStreamResource(bis));
+	}
+
 	@PostMapping("/a_home/editProduct")
-	public String editProduct(@ModelAttribute("ProductChanger") ProductChanger t,Model model) {
-		
+	public String editProduct(@ModelAttribute("ProductChanger") ProductChanger t, Model model) {
+
 		PartRecord record = DBInterfacer.getPartRecord(t.getNumber());
-		
+
 		record.setDescription(t.getDescription());
 		record.setPrice(t.getPrice());
 		record.setWeight(t.getWeight());
 		record.setQuantity(t.getQuantity());
-		
+
 		DBInterfacer.update(record);
-		
+
 		model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
 		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
 		model.addAttribute("threshold", AdminPageController.getThreshold());
-        model.addAttribute("cost", AdminPageController.getCost());
-		
+		model.addAttribute("cost", AdminPageController.getCost());
+
 		return "a_home";
 	}
-	
 
 	@PostMapping("/a_home")
 	public String showPageAC(@ModelAttribute("cusChanger") CustomerChanger bean, Model model) {
@@ -106,7 +131,7 @@ public class EditDataController {
 		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
 		model.addAttribute("threshold", AdminPageController.getThreshold());
-        model.addAttribute("cost", AdminPageController.getCost());
+		model.addAttribute("cost", AdminPageController.getCost());
 
 		return "a_home";
 	}
@@ -226,8 +251,9 @@ public class EditDataController {
 		if (record.getAuthorization() == 1) {
 			// ready to process
 			record.setAuthorization(2);
-			
-			EmailController.doSendEmail(DBInterfacer.getCustomerRecord(record.getCustomerID()).getContact(), "Welp, we did it.", "Its coming.");
+
+			EmailController.doSendEmail(DBInterfacer.getCustomerRecord(record.getCustomerID()).getContact(),
+					"Welp, we did it.", "Its coming.");
 
 			DBInterfacer.update(record);
 			// update inventory in DB

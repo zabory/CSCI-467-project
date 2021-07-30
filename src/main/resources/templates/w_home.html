@@ -51,7 +51,10 @@
 				</form>
 				</th>
     			<th>
-				<button class="btn btn-primary" type="button" data-bs-target="#modal-2" data-bs-toggle="modal">Print Packing List</button>
+				<form method="GET" th:action="@{/w_home/packingList}">
+    				<input type="hidden" id="orderID" name="orderID" th:value="${order.ID}">
+					<button class="btn btn-primary" type="submit">Print Packing List</button>
+				</form>
     			</th>
 				          
 			</tr>

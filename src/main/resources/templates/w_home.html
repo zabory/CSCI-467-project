@@ -51,7 +51,7 @@
 				</form>
 				</th>
     			<th>
-				<form method="GET" th:action="@{/w_home/packingList}">
+				<form method="GET" th:action="@{/w_home/packingList}" target="_blank">
     				<input type="hidden" id="orderID" name="orderID" th:value="${order.ID}">
 					<button class="btn btn-primary" type="submit">Print Packing List</button>
 				</form>

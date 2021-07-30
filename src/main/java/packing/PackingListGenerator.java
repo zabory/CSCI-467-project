@@ -122,7 +122,7 @@ public class PackingListGenerator {
 			
 			// image stuff
 			try {
-				Image image = Image.getInstance(PackingListGenerator.class.getResource("/car.png"));
+				Image image = Image.getInstance(PackingListGenerator.class.getResource("/images/car.png"));
 				image.scalePercent(35);
 				image.setAbsolutePosition(34, document.top() - 125);
 				document.add(image);

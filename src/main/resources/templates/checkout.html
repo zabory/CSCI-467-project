@@ -29,6 +29,8 @@
 		    <div th:each="d: ${d_cart}">
 				<p class="text-center fw-bold" th:text="${d.name} + ': x' + ${d.count}"></p>
 			</div>
+			<p class="text-center fw-bold" th:text="'Total amount in cart: ' + ${cart_total}">Wow</p>
+			<p class="text-center fw-bold" th:text="'Shipping cost: ' + ${shipping_total}">Wow</p>
 		</div>
 		<div class="col-9">
 		    <form method="POST" th:action="@{/checkout/final}">

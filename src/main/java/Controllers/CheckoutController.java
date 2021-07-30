@@ -52,6 +52,8 @@ public class CheckoutController {
 	public String addToCart(Model model, @RequestParam("cart") String cart) {
 		model.addAttribute("cart", cart);
 		model.addAttribute("cc_error",false);
+		model.addAttribute("cart_total", calculateCost(cart));
+		model.addAttribute("shipping_total", calculateShippingCosts(cart));
 
 		try {
 			model.addAttribute("d_cart", convertJsonCart(new JSONArray(cart)));
@@ -67,9 +69,9 @@ public class CheckoutController {
 			@RequestParam("name") String name,@RequestParam("street") String street,
 			@RequestParam("city") String city,@RequestParam("contact") String contact, @RequestParam("cart") String cart,
 			@RequestParam("ccNumber") String ccNumber, @RequestParam("expirDate") String  expirDate) {
-		System.out.println(name + " " + street + " " + city + " " + contact);
-		System.out.println(cart);
-		System.out.println(ccNumber + " " + expirDate);
+		
+		model.addAttribute("cart_total", calculateCost(cart));
+		model.addAttribute("shipping_total", calculateShippingCosts(cart));
 		
 		CustomerRecord customer = DBInterfacer.getCustomer(name);
 		
@@ -195,6 +197,33 @@ public class CheckoutController {
 		return total;
 	}
 	
+	private double calculateCost(String cart) {
+		double total = 0;
+		
+		HashMap<Integer, Integer> parts = new HashMap<Integer, Integer>();
+	    
+	    JSONArray partsJSON;
+		try {
+			partsJSON = new JSONArray(cart);
+			
+			  for(int i = 0; i < partsJSON.length(); i++) {
+			    	try {
+						parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""), partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
+					} catch (NumberFormatException | JSONException e) {
+						e.printStackTrace();
+					}
+			    }
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		
+		for(Integer x : parts.keySet()) {
+			total += (DBInterfacer.getPartRecord(x).getPrice() * parts.get(x));
+		}
+		
+		return total;
+	}
+	
 	private int getOpenCustomerID() {
 		int id = 1;
 		boolean found = DBInterfacer.getAllCustomerRecords().size() == 0;
@@ -238,6 +267,29 @@ public class CheckoutController {
 	}
 
 	private double calculateShippingCosts(OrderRecord order) {
+		System.out.println(order.getOrderWeight());
 		return ((int) (Double.parseDouble(order.getOrderWeight()) / AdminPageController.getThreshold()) + 1) * AdminPageController.getCost();
+	}
+	
+	private double calculateShippingCosts(String cart) {
+		OrderRecord order = new OrderRecord();
+		HashMap<Integer, Integer> parts = new HashMap<Integer, Integer>();
+		JSONArray partsJSON;
+		try {
+			partsJSON = new JSONArray(cart);
+			  for(int i = 0; i < partsJSON.length(); i++) {
+			    	try {
+						parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""), partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
+					} catch (NumberFormatException | JSONException e) {
+						e.printStackTrace();
+					}
+			    }
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		
+		order.setParts(parts);
+		
+		return calculateShippingCosts(order);
 	}
 }

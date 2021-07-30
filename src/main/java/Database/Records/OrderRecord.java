@@ -72,6 +72,7 @@ public class OrderRecord implements Record {
 
 	public OrderRecord() {
 		// TODO Auto-generated constructor stub
+		DBInterfacer = App.getDatabaseInterfacer();
 	}
 
 	public String insert() {
@@ -170,7 +171,7 @@ public class OrderRecord implements Record {
 		
 		for(Integer key: parts.keySet())
 		{
-			tWeight += DBInterfacer.getPartRecord(key).getWeight()*parts.get(key);
+			tWeight += DBInterfacer.getPartRecord(key).getWeight() * parts.get(key);
 		}
 		
 		return tWeight + "";	

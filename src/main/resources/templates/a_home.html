@@ -65,32 +65,31 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" role="tabpanel" id="tab-1">
-                        <div class="table-responsive">
-		                   <table class="table table-striped table-hover table-sortable">
-		                       <thead>
-		                           <tr>
-									  <th scope="col">ID</th>
-									  <th scope="col">Name           City        Street            Contact</th>
-									</tr>
-		                       	</thead>
-		                       <tbody>
-			                    <tr th:each="c: ${customers}">
-									<th th:text="${c.id}"></th>
-									<th>
-									<form method="POST" th:action="@{/a_home}">
-					                   	<input type="hidden" id="id" name="id" th:value="${c.id}">
-										<input type="text" id="name" name="name" th:value="${c.name}">
-										<input type="text" id="city" name="city" th:value="${c.city}">
-										<input type="text" id="street" name="street" th:value="${c.street}">
-										<input type="text" id="contact" name="contact" th:value="${c.contact}">
-									   	<button class="btn btn-primary" type="submit">Save</button>
-									</form>
-									</th>
+	                   <table id="myTable2" class="table table-striped table-hover tablesorter">
+	                       <thead>
+	                           <tr>
+								  <th scope="col">ID</th>
+								  <th scope="col">Name</th>
+								  <th scope="col">City</th>
+								  <th scope="col">Street</th>
+								  <th scope="col">Contact</th>
 								</tr>
-		                       </tbody>
-		                   </table>
-		               </div>
-                    </div>
+	                       	</thead>
+	                       <tbody>
+		                    <tr th:each="c: ${customers}">
+								<form method="POST" th:action="@{/a_home}">
+									<th th:text="${c.id}"></th>
+					                <input type="hidden" id="id" name="id" th:value="${c.id}"></th>
+									<th th:text="${c.name}" > <input type="text" id="name" name="name" th:value="${c.name}"></th>
+									<th><input type="text" id="city" name="city" th:value="${c.city}"></th>
+									<th><input type="text" id="street" name="street" th:value="${c.street}"></th>
+									<th><input type="text" id="contact" name="contact" th:value="${c.contact}"></th>
+									<th><button class="btn btn-primary" type="submit">Save</button></th>
+								</form>
+							</tr>
+	                       </tbody>
+	                   </table>
+	               </div>
                     <div class="tab-pane" role="tabpanel" id="tab-2">
                        <table class="table table-striped table-hover">
 	                       <thead>
@@ -123,7 +122,7 @@
 	                   </table>
 	               	</div>
 	            	<div class="tab-pane" role="tabpanel" id="tab-3">
-	            		<table class="table table-striped table-hover">
+	            		<table id="myTable" class="table table-striped table-hover tablesorter">
 	                       	<thead>
 								<tr>
 								  <th scope="col">ID</th>
@@ -155,21 +154,18 @@
 	    </div>
 	</div>
 	</div>
-    			   
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Title</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>The content of your modal.</p>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
-            </div>
-        </div>
-    </div>
+	
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery-3.6.0.slim.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.tablesorter.js"></script>
+	<script>
+	$(function() {
+		  $("#myTable").tablesorter();
+		});
+	$(function() {
+		  $("#myTable2").tablesorter();
+		});
+	</script>
     
 	
 </body>

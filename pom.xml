@@ -6,6 +6,11 @@
 	<artifactId>CSCI-Project</artifactId>
 	<version>1.0</version>
 	<name>CSCI 467 Project</name>
+	
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -42,13 +47,19 @@
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.34.0</version>
 		</dependency>
-		
-		 <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-				
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+
 	</dependencies>
 
 </project>

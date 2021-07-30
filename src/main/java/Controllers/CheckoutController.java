@@ -117,8 +117,11 @@ public class CheckoutController {
 		}
 		
 		EmailController.doSendEmail(contact, "Oh no, why did you submit an order to us?", "Your order has been submitted!");
-		
-		return "checkout";
+
+		model.addAttribute("products", DBInterfacer.getAllPartRecords());
+		model.addAttribute("cart","[]");
+		model.addAttribute("d_cart",new LinkedList<CartPart>());
+		return "index";
 	}
 
 	/**

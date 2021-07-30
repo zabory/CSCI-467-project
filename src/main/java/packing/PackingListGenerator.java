@@ -2,6 +2,7 @@ package packing;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -12,6 +13,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -31,7 +33,7 @@ public class PackingListGenerator {
 
 		try {
 			
-			PdfWriter.getInstance(document, out);
+			PdfWriter writer = PdfWriter.getInstance(document, out);
 			document.open();
 			
 			/**
@@ -41,7 +43,7 @@ public class PackingListGenerator {
 			// table stuff
 			PdfPTable table = new PdfPTable(3);
 			table.setWidthPercentage(60);
-			table.setWidths(new int[] { 1, 3, 2 });
+			table.setWidths(new float[] { 1, 3.5f, 1 });
 			
 			Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
 
@@ -118,11 +120,25 @@ public class PackingListGenerator {
 			r.setBorderWidth(2);
 			// end border stuff
 			
+			// image stuff
+			try {
+				Image image = Image.getInstance(PackingListGenerator.class.getResource("/car.png"));
+				image.scalePercent(35);
+				image.setAbsolutePosition(34, document.top() - 125);
+				document.add(image);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			// end image stuff
+			
 			document.add(r);
 			
-			Paragraph p = new Paragraph("Bad Car Parts R' Us", new Font(FontFamily.TIMES_ROMAN,45.0f,Font.UNDERLINE ,BaseColor.DARK_GRAY));
+			document.add(new Paragraph("\n "));
+			Paragraph p = new Paragraph("Bad Car Parts R' Us", new Font(FontFamily.TIMES_ROMAN, 45.0f, Font.UNDERLINE, BaseColor.DARK_GRAY));
 			p.setAlignment(Element.ALIGN_CENTER);
 			document.add(p);
+			document.add(new Paragraph("\n "));
 			
 			// add space between title and table
 			document.add(new Paragraph("\n "));
@@ -131,6 +147,10 @@ public class PackingListGenerator {
 			// add space between customer and table
 			document.add(new Paragraph(" "));
 			document.add(table);
+			
+			
+			document.add(r);
+			
 			
 			document.close();
 

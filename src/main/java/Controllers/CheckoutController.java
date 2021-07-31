@@ -116,7 +116,7 @@ public class CheckoutController {
 			return "checkout";
 		}
 		
-		EmailController.doSendEmail(contact, "Oh no, why did you submit an order to us?", "Your order has been submitted!");
+		EmailController.doSendEmail(contact, "Your order has been submitted to Bad Car Parts R' Us", "Once we have the inventory, we will send out your order!");
 
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
 		model.addAttribute("cart","[]");

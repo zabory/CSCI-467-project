@@ -9,17 +9,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import Controllers.Changer.CartPart;
-import Controllers.Changer.ReceivingChanger;
 import Controllers.Changer.SearchChanger;
 import Database.DatabaseInterfacer;
 import Database.Records.PartRecord;
 import application.App;
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Controller 
 public class UserPageController {

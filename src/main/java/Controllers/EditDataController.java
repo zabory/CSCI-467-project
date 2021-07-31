@@ -276,7 +276,7 @@ public class EditDataController {
 			record.setAuthorization(2);
 
 			EmailController.doSendEmail(DBInterfacer.getCustomerRecord(record.getCustomerID()).getContact(),
-					"Welp, we did it.", "Its coming.");
+					"Welp, we did it.", "Your order is on its way!");
 
 			DBInterfacer.update(record);
 			// update inventory in DB

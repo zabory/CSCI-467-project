@@ -39,6 +39,7 @@ public class UserPageController {
 		model.addAttribute("d_cart",new LinkedList<CartPart>());
 
 		model.addAttribute("searchChanger", new SearchChanger()); // assume SomeBean has a property called datePlanted
+		model.addAttribute("login_error",false);
 
         return "index";
     }
@@ -65,6 +66,7 @@ public class UserPageController {
 
 		model.addAttribute("products",newList);
 		model.addAttribute("cart",value.getCart());
+		model.addAttribute("login_error",false);
 		try {
 			model.addAttribute("d_cart",convertJsonCart(new JSONArray(value.getCart())));
 		} catch (JSONException e) {

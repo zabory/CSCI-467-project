@@ -24,12 +24,12 @@
 	    <div class="container"><a class="navbar-brand" href="/">BAD CAR PARTS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 	        <div class="collapse navbar-collapse" id="navcol-1">
 	            <ul class="navbar-nav ms-auto">
-	                <li class="nav-item"><a class="nav-link" href="/a_home">Admin</a></li>
+	                <li class="nav-item"><a class="nav-link" href="/login">Admin</a></li>
 	            </ul>
 	        </div>
 	    </div>
 	</nav>
-	
+	<h4 class="text-danger text-center" th:if="${login_error}"> Bad login</h4>
 	<div class="row ">
 	    <div class="col-2">
 	    	<div class="container  border border-dark rounded-3" style="background: #6cddbc; margin:20px 0px 10px 0px">

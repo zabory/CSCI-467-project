@@ -19,7 +19,7 @@
 	@media (min-width: 1200px){.card-column {column-count: 5;}}
 	</style>
 </head>
-<body>
+<body></body>
 	<nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background: rgb(48, 207, 159);margin-bottom: 65px;">
 	    <div class="container"><a class="navbar-brand" href="/">BAD CAR PARTS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 	        <div class="collapse navbar-collapse" id="navcol-1">
@@ -53,6 +53,18 @@
 	    </div>
 	    <div class="col-10">
 		    <div class ="container py-5 bg-faded" style="background: #6cddbc;">
+		    	<div class="row" >
+			    	<form method="post" th:action="@{/search}" style="width:auto;">
+			    		<input type="text" id="input" name="input" required>
+						<input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
+						<input class="btn btn-primary" type="submit" value="Search!" />
+			    	</form>	 
+			    	<form method="post" th:action="@{/search}" style="width:auto;">
+			    		<input type="hidden" th:value="null" id="input" name="input" required>
+						<input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
+						<input class="btn btn-primary" type="submit" value="Clear Search" />
+			    	</form>	     
+		    	</div>
 				<div class="card-column" >
 					<div  th:each="product: ${products}" th:if="${product.quantity > 0}" class="card  border border-dark rounded-3" style="margin: 10px;">
 						<img class="card-img" th:src="${product.pictureURL}">
@@ -67,14 +79,6 @@
 							    <input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
 							    <input class="btn btn-primary" type="submit" value="Add to Cart" />
 							</form>
-							<!--  <input class="" type="hidden" th:value="${cart.currentCart}" id="productId" name="productId"/>
-							    
-							<form method="POST" th:action="@{/r_home/change}">
-                   	<p>New Count: <input type="text" id="newAmount" name="newAmount" style="width:80px;"/></p>
-                   	 <input type="hidden" id="productId" name="productId" th:value="${product.number}">
-				   	<button class="btn btn-primary" type="submit">Save</button>
-				</form>
-							-->
 						</div>
 					</div>
 				</div>

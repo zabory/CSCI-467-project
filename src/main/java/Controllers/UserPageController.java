@@ -52,8 +52,6 @@ public class UserPageController {
 
 		Cookie n = new Cookie("searchParam","");
 		n.setMaxAge(60 * 30); //sets age of cookie to 30 minutes
-        n.setSecure(true);
-        n.setHttpOnly(true);
         
 		if(value == "null") {
 			newList = old;

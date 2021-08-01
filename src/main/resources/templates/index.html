@@ -17,9 +17,10 @@
 	@media (min-width: 750px){.card-column {column-count: 3;}}
 	@media (min-width: 900px){.card-column {column-count: 4;}}
 	@media (min-width: 1200px){.card-column {column-count: 5;}}
+	
 	</style>
 </head>
-<body></body>
+<body style="background-image: linear-gradient(45deg, rgba(187, 187, 187,0.04) 0%, rgba(187, 187, 187,0.04) 50%,rgba(86, 86, 86,0.04) 50%, rgba(86, 86, 86,0.04) 100%),linear-gradient(135deg, rgba(166, 166, 166,0.04) 0%, rgba(166, 166, 166,0.04) 50%,rgba(92, 92, 92,0.04) 50%, rgba(92, 92, 92,0.04) 100%),linear-gradient(90deg, rgba(98,226,221, 0.25),rgba(98,226,221, 0.25)); background-size: 142px 142px;">
 	<nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background: rgb(48, 207, 159);margin-bottom: 65px;">
 	    <div class="container"><a class="navbar-brand" href="/">BAD CAR PARTS &#39;R&#39; US</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
 	        <div class="collapse navbar-collapse" id="navcol-1">
@@ -52,8 +53,8 @@
 			</div>
 	    </div>
 	    <div class="col-10">
-		    <div class ="container py-5 bg-faded" style="background: #6cddbc;">
-		    	<div class="row" >
+		    <div class ="container py-5 bg-faded rounded border border-white" style="background: #6cddbc; padding-top:20px!important;">
+		    	<div class="row rounded border border-black sticky-top" style="background: #FFFFFFcc; padding:10px 0 10px 40px; width:60%;margin: auto;">
 			    	<form method="post" th:action="@{/search}" style="width:auto;">
 			    		<input type="text" th:value="${searchParam}" id="searchParam" name="searchParam" required>
 						<input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
@@ -85,10 +86,5 @@
 			</div>
 	    </div>
 	</div>
-
-</html>
-	
-	
-
 </body>
 </html>

@@ -42,6 +42,10 @@ public class PartRecord implements Record {
 		this.quantity = quantity;
 	}
 
+	public PartRecord() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Get the SQL statement to insert this record
 	 */

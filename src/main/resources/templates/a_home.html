@@ -99,6 +99,10 @@
 									<th><input type="text" id="contact" name="contact" th:value="${c.contact}" style="width:140px"></th>
 									<th><button class="btn btn-primary" type="submit">Save</button></th>
 								</form>
+								<form method="POST" th:action="@{/removeCus}">
+					                <input type="hidden" id="id" name="id" th:value="${c.id}">
+									<th><button class="btn btn-primary" type="submit">Remove</button></th>
+								</form>
 							</tr>
 	                       </tbody>
 	                   </table>
@@ -151,8 +155,13 @@
 									<th><input type="number" id="price" name="price" th:value="${product.price}" style="width:80px"></th>
 									<th><input type="number" id="weight" name="weight" th:value="${product.weight}" style="width:80px"></th>
 									<th><input type="number" id="quantity" name="quantity" th:value="${product.quantity}" style="width:80px"></th>
-									<th><button class="btn btn-primary" type="submit">Save</button></th>
-								</form>
+									<th><button class="btn btn-primary" type="submit">Save</button>
+									
+								</form><th>
+								<form method="POST" th:action="@{/removeProd}">
+					                <input type="hidden" id="id" name="id" th:value="${product.number}">
+									<button class="btn btn-primary" type="submit">Remove</button>
+								</form></th>
 							</tr>
 	                   </table>
 	            	</div>

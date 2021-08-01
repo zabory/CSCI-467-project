@@ -4,9 +4,12 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,17 +33,24 @@ public class AdminPageController {
 	private DatabaseInterfacer DBInterfacer;
 
 	@GetMapping("/login")
-	public String login(Model model) {
-		model.addAttribute("loginChanger", new LoginChanger()); // assume SomeBean has a property called datePlanted
-		model.addAttribute("login_error",false);
-		return "login";
+	public String login(Model model, @CookieValue(value = "loggedin", defaultValue = "false") boolean loggedIn) {
+		if(!loggedIn) {
+			model.addAttribute("loginChanger", new LoginChanger()); // assume SomeBean has a property called datePlanted
+			model.addAttribute("login_error",false);
+			return "login";
+		} else {
+			updateInfo(model);
+			return "a_home";
+		}
 	}
 	@PostMapping("/login")
-	public String login(Model model, @ModelAttribute("loginChanger") LoginChanger t) {
+	public String login(HttpServletResponse response, Model model, @ModelAttribute("loginChanger") LoginChanger t) {
 
 		if(t.getId().equals("admin") && t.getPass().equals("password")) {
 			updateInfo(model);
-	        
+	        Cookie cookie = new Cookie("loggedin", "true");
+	        cookie.setMaxAge(60 * 30); //sets age of cookie to 30 minutes
+	        response.addCookie(cookie);
 			return "a_home";
 		}
 		

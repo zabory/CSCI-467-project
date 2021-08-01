@@ -44,7 +44,6 @@ public class UserPageController {
 
 	@PostMapping("/search")
 	public String showPage(@ModelAttribute("searchChanger") SearchChanger value, Model model) {
-		System.out.println(value.getInput());
 		
 		LinkedList<PartRecord> newList = new LinkedList<PartRecord>(), old = DBInterfacer.getAllPartRecords();
 		
@@ -55,7 +54,6 @@ public class UserPageController {
 			model.addAttribute("searchChanger", value.getCart()); // assume SomeBean has a property called datePlanted
 			for(int i=0;i<old.size();i++) {
 				if(old.get(i).getDescription().toLowerCase().contains(value.getInput().toLowerCase())) {
-					System.out.println(old.get(i).getDescription());
 					newList.add(old.get(i));
 				}
 			}

@@ -192,7 +192,6 @@ public class EditDataController {
 	
 	@PostMapping("/remove")
 	public String addToCart(Model model, @RequestParam("productId") String prodID, @RequestParam("cart") String cart) {
-		System.out.println(prodID + ' ' + cart);
 		try {
 			JSONArray newCart = new JSONArray(), oldCart = new JSONArray(cart);
 			

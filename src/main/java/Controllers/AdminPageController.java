@@ -50,6 +50,8 @@ public class AdminPageController {
 			updateInfo(model);
 	        Cookie cookie = new Cookie("loggedin", "true");
 	        cookie.setMaxAge(60 * 30); //sets age of cookie to 30 minutes
+	        cookie.setSecure(true);
+	        cookie.setHttpOnly(true);
 	        response.addCookie(cookie);
 			return "a_home";
 		}

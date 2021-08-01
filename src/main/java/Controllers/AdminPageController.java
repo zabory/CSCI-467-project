@@ -21,7 +21,6 @@ import Controllers.Changer.CustomerRemover;
 import Controllers.Changer.LoginChanger;
 import Controllers.Changer.ProductChanger;
 import Controllers.Changer.ProductRemover;
-import Controllers.Changer.SearchChanger;
 import Database.DatabaseInterfacer;
 import Database.Records.CustomerRecord;
 import Database.Records.PartRecord;
@@ -60,7 +59,6 @@ public class AdminPageController {
 		model.addAttribute("cart","[]");
 		model.addAttribute("d_cart",new LinkedList<CartPart>());
 
-		model.addAttribute("searchChanger", new SearchChanger()); // assume SomeBean has a property called datePlanted
 		model.addAttribute("login_error",true);
 		return "index";
 	}

@@ -4,16 +4,19 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import Controllers.Changer.CartPart;
-import Controllers.Changer.SearchChanger;
 import Database.DatabaseInterfacer;
 import Database.Records.PartRecord;
 import application.App;
@@ -30,40 +33,47 @@ public class UserPageController {
 	}
 
 	@RequestMapping({ "/", "/index"})
-    public String main(Model model) {
+    public String main(Model model, @CookieValue(value = "searchParam", defaultValue = "") String searchBar) {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
 		model.addAttribute("cart","[]");
 		model.addAttribute("d_cart",new LinkedList<CartPart>());
 
-		model.addAttribute("searchChanger", new SearchChanger()); // assume SomeBean has a property called datePlanted
+		model.addAttribute("searchParam", searchBar); // assume SomeBean has a property called datePlanted
 		model.addAttribute("login_error",false);
-
+		
         return "index";
     }
 	
 
 	@PostMapping("/search")
-	public String showPage(@ModelAttribute("searchChanger") SearchChanger value, Model model) {
+	public String showPage(@RequestParam("searchParam") String value,@RequestParam("cart") String cart, Model model, HttpServletResponse response) {
 		
 		LinkedList<PartRecord> newList = new LinkedList<PartRecord>(), old = DBInterfacer.getAllPartRecords();
-		
-		if(value.getInput() == "null") {
+
+		Cookie n = new Cookie("searchParam","");
+		n.setMaxAge(60 * 30); //sets age of cookie to 30 minutes
+        n.setSecure(true);
+        n.setHttpOnly(true);
+        
+		if(value == "null") {
 			newList = old;
-			model.addAttribute("searchChanger", ""); // assume SomeBean has a property called datePlanted
+			n.setValue("");
 		}else {
-			model.addAttribute("searchChanger", value.getCart()); // assume SomeBean has a property called datePlanted
+			n.setValue(value);
 			for(int i=0;i<old.size();i++) {
-				if(old.get(i).getDescription().toLowerCase().contains(value.getInput().toLowerCase())) {
+				if(old.get(i).getDescription().toLowerCase().contains(value.toLowerCase())) {
 					newList.add(old.get(i));
 				}
 			}
 		}
 
+        response.addCookie(n);
+		model.addAttribute("searchParam",value);
 		model.addAttribute("products",newList);
-		model.addAttribute("cart",value.getCart());
+		model.addAttribute("cart",cart);
 		model.addAttribute("login_error",false);
 		try {
-			model.addAttribute("d_cart",convertJsonCart(new JSONArray(value.getCart())));
+			model.addAttribute("d_cart",convertJsonCart(new JSONArray(cart)));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

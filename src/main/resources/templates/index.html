@@ -55,12 +55,12 @@
 		    <div class ="container py-5 bg-faded" style="background: #6cddbc;">
 		    	<div class="row" >
 			    	<form method="post" th:action="@{/search}" style="width:auto;">
-			    		<input type="text" id="input" name="input" required>
+			    		<input type="text" th:value="${searchParam}" id="searchParam" name="searchParam" required>
 						<input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
 						<input class="btn btn-primary" type="submit" value="Search!" />
 			    	</form>	 
 			    	<form method="post" th:action="@{/search}" style="width:auto;">
-			    		<input type="hidden" th:value="null" id="input" name="input" required>
+			    		<input type="hidden" th:value="null" id="searchParam" name="searchParam" required>
 						<input class="" type="hidden" th:value="${cart}" id="cart" name="cart"/>
 						<input class="btn btn-primary" type="submit" value="Clear Search" />
 			    	</form>	     
@@ -85,8 +85,6 @@
 			</div>
 	    </div>
 	</div>
-	
-
 
 </html>
 	

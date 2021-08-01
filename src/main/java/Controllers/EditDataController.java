@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -139,8 +140,9 @@ public class EditDataController {
 
 	@PostMapping("/add")
 	public String addToCart(Model model, @RequestParam("productId") String prodID,
-			@RequestParam("newAmount") String newAmount, @RequestParam("cart") String cart) {
-
+			@RequestParam("newAmount") String newAmount, @RequestParam("cart") String cart,
+			 @CookieValue(value = "searchParam", defaultValue = "") String searchInfo) {
+		
 		try {
 			JSONArray cartJSON = new JSONArray(cart);
 
@@ -183,8 +185,15 @@ public class EditDataController {
 			e.printStackTrace();
 			model.addAttribute("cart", "");
 		}
-
-		model.addAttribute("products", DBInterfacer.getAllPartRecords());
+		
+		LinkedList<PartRecord> old = DBInterfacer.getAllPartRecords(), newList = new LinkedList<PartRecord>();
+		for(int i=0;i<old.size();i++) {
+			if(old.get(i).getDescription().toLowerCase().contains(searchInfo.toLowerCase())) {
+				newList.add(old.get(i));
+			}
+		}
+		model.addAttribute("products", newList);
+		model.addAttribute("searchParam", searchInfo);
 
 		return "index";
 	}

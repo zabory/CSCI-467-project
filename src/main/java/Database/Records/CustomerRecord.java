@@ -38,6 +38,15 @@ public class CustomerRecord implements Record {
 		this.contact = contact;
 	}
 	
+	public CustomerRecord() {
+		// TODO Auto-generated constructor stub
+		this.id = 0;
+		this.name = "";
+		this.city = "";
+		this.street = "";
+		this.contact = "";
+	}
+
 	/**
 	 * Get the SQL statement to insert this record
 	 */

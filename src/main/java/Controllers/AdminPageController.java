@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 import javax.annotation.PostConstruct;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import Controllers.Changer.CartPart;
 import Controllers.Changer.CustomerChanger;
+import Controllers.Changer.CustomerRemover;
 import Controllers.Changer.LoginChanger;
 import Controllers.Changer.ProductChanger;
+import Controllers.Changer.ProductRemover;
 import Controllers.Changer.SearchChanger;
 import Database.DatabaseInterfacer;
+import Database.Records.CustomerRecord;
+import Database.Records.PartRecord;
 import application.App;
 
 @Controller
@@ -34,13 +39,7 @@ public class AdminPageController {
 	public String login(Model model, @ModelAttribute("loginChanger") LoginChanger t) {
 
 		if(t.getId().equals("admin") && t.getPass().equals("password")) {
-
-			model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
-			model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
-			model.addAttribute("products", DBInterfacer.getAllPartRecords());
-	        model.addAttribute("threshold",threshold);
-	        model.addAttribute("cost",cost);
-	        model.addAttribute("ProductChanger", new ProductChanger());
+			updateInfo(model);
 	        
 			return "a_home";
 		}
@@ -56,14 +55,7 @@ public class AdminPageController {
 	
 	@GetMapping("/a_home")
 	public String showPageAC(Model model) {
-		model.addAttribute("cusChanger", new CustomerChanger()); // assume SomeBean has a property called datePlanted
-
-		model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
-		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
-		model.addAttribute("products", DBInterfacer.getAllPartRecords());
-        model.addAttribute("threshold",threshold);
-        model.addAttribute("cost",cost);
-        model.addAttribute("ProductChanger", new ProductChanger());
+		updateInfo(model);
 		return "a_home";
 	}
 	
@@ -71,17 +63,33 @@ public class AdminPageController {
 	public String shippingChange(Model model, @RequestParam("thres") double thres, @RequestParam("cost") double c) {
 		threshold = thres;
 		cost = c;
-
-        model.addAttribute("threshold",threshold);
-        model.addAttribute("cost",cost);
-        
-        model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
-        model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
-        model.addAttribute("products", DBInterfacer.getAllPartRecords());
+		updateInfo(model);
 		
 		return "a_home";
 	}
 
+	@PostMapping("/removeCus")
+	public String remove(Model model, @ModelAttribute("cusRemover") CustomerRemover c) throws SQLException {
+		CustomerRecord r = new CustomerRecord();
+		r.setId(c.getId());
+		DBInterfacer.delete(r);
+		
+		updateInfo(model);
+        model.addAttribute("cusRemover", c);
+		return "a_home";
+	}
+	
+	@PostMapping("/removeProd")
+	public String remove(Model model, @ModelAttribute("prodRemover") ProductRemover c) throws SQLException {
+		PartRecord r = new PartRecord();
+		r.setNumber(c.getId());
+		DBInterfacer.delete(r);
+		
+		updateInfo(model);
+        model.addAttribute("prodRemover", c);
+		return "a_home";
+	}
+	
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();
@@ -100,5 +108,15 @@ public class AdminPageController {
 	public static double getCost() {
 		return cost;
 	}
-	
+	public void updateInfo(Model model) {
+		model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
+		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());
+		model.addAttribute("products", DBInterfacer.getAllPartRecords());
+        model.addAttribute("threshold",threshold);
+        model.addAttribute("cost",cost);
+		model.addAttribute("cusChanger", new CustomerChanger()); // assume SomeBean has a property called datePlanted
+        model.addAttribute("cusRemover", new CustomerRemover());
+        model.addAttribute("ProductChanger", new ProductChanger());
+        model.addAttribute("prodRemover", new ProductRemover());
+	}
 }

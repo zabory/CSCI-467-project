@@ -52,11 +52,9 @@ public class RestfulAPIController {
 	public ResponseEntity<String> getCustomerList(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
-			JSONObject returnInfo = new JSONObject();
 
 			if (validateUser(JSONBody)) {
-				returnInfo.put("customer-list", getAllRecords(RecordType.Customer));
-				return ResponseEntity.ok(returnInfo.toString());
+				return ResponseEntity.ok(getAllRecords(RecordType.Customer).toString());
 			} else {
 				return ResponseEntity.ok("Invalid username or password");
 			}
@@ -76,11 +74,9 @@ public class RestfulAPIController {
 	public ResponseEntity<String> getPartList(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
-			JSONObject returnInfo = new JSONObject();
 
 			if (validateUser(JSONBody)) {
-				returnInfo.put("part-list", getAllRecords(RecordType.Part));
-				return ResponseEntity.ok(returnInfo.toString());
+				return ResponseEntity.ok(getAllRecords(RecordType.Part).toString());
 			} else {
 				return ResponseEntity.ok("Invalid username or password");
 			}
@@ -100,11 +96,9 @@ public class RestfulAPIController {
 	public ResponseEntity<String> getOrderList(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
-			JSONObject returnInfo = new JSONObject();
 
 			if (validateUser(JSONBody)) {
-				returnInfo.put("order-list", getAllRecords(RecordType.Order));
-				return ResponseEntity.ok(returnInfo.toString());
+				return ResponseEntity.ok(getAllRecords(RecordType.Order).toString());
 			} else {
 				return ResponseEntity.ok("Invalid username or password");
 			}

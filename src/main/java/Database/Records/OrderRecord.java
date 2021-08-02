@@ -82,7 +82,7 @@ public class OrderRecord implements Record {
 	}
 
 	public String delete() {
-		return "delete from orders where number=" + ID;
+		return "delete from orders where id=" + ID;
 	}
 
 	private String partsToJSONString() {

@@ -246,6 +246,94 @@ public class RestfulAPIController {
 		}
 	}
 	
+
+	/**
+	 * deletes customer record
+	 * @param body
+	 * @return
+	 */
+	@PostMapping("/api/deletecustomer")
+	public ResponseEntity<String> deleteCustomer(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				if (JSONBody.has("id")) {
+					if(deleteRecord(RecordType.Customer, JSONBody.getInt("id"))) {
+						return ResponseEntity.ok("Customer has been removed");
+					} else {
+
+						return ResponseEntity.ok("Unable to remove customer");
+					}
+				} else {
+					return ResponseEntity.ok("Request does not have a customer ID");
+				}
+				
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * deletes part record
+	 * @param body
+	 * @return
+	 */
+	@PostMapping("/api/deletepart")
+	public ResponseEntity<String> deletePart(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				if (JSONBody.has("number")) {
+					if(deleteRecord(RecordType.Part, JSONBody.getInt("number"))) {
+						return ResponseEntity.ok("Part has been removed");
+					} else {
+
+						return ResponseEntity.ok("Unable to remove part");
+					}
+				} else {
+					return ResponseEntity.ok("Request does not have a part number");
+				}
+				
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * deletes order record
+	 * @param body
+	 * @return
+	 */
+	@PostMapping("/api/deleteorder")
+	public ResponseEntity<String> deleteOrder(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				if (JSONBody.has("id")) {
+					if(deleteRecord(RecordType.Order, JSONBody.getInt("id"))) {
+						return ResponseEntity.ok("Order has been removed");
+					} else {
+
+						return ResponseEntity.ok("Unable to remove order");
+					}
+				} else {
+					return ResponseEntity.ok("Request does not have a order id");
+				}
+				
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
 	/**
 	 * Validate username and password of the request
 	 * 
@@ -254,6 +342,34 @@ public class RestfulAPIController {
 	 */
 	private boolean validateUser(JSONObject data) throws JSONException {
 		return data.getString("user").equals("admin") && data.getString("password").equals("password");
+	}
+	
+	private boolean deleteRecord(RecordType type, int recordId) {
+		if(type == RecordType.Part) {
+			PartRecord record = DBInterfacer.getPartRecord(recordId);
+			if(record != null) {
+				DBInterfacer.delete(record);
+				return true;
+			} else {
+				return false;
+			}
+		} else if(type == RecordType.Customer) {
+			CustomerRecord record = DBInterfacer.getCustomerRecord(recordId);
+			if(record != null) {
+				DBInterfacer.delete(record);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			OrderRecord record = DBInterfacer.getOrderRecord(recordId);
+			if(record != null) {
+				DBInterfacer.delete(record);
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 
 	private JSONObject getAllRecords(RecordType type) {

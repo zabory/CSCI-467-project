@@ -119,6 +119,20 @@ public class AdminPageController {
 	}
 	
 	/**
+	 * @param threshold the threshold to set
+	 */
+	public static void setThreshold(double threshold) {
+		AdminPageController.threshold = threshold;
+	}
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public static void setCost(double cost) {
+		AdminPageController.cost = cost;
+	}
+
+	/**
 	 * Adds everything we need to add to the index model
 	 * @param model Model of the page
 	 */

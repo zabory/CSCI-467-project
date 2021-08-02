@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import Controllers.AdminPageController;
 import Database.DatabaseInterfacer;
 import Database.Records.CustomerRecord;
 import Database.Records.OrderRecord;
@@ -236,6 +237,32 @@ public class RestfulAPIController {
 					info.updateFromJSONObjcet(JSONBody);
 					DBInterfacer.update(info);
 					return ResponseEntity.ok("Part information updated");
+				}
+				
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * Changes shipping costs
+	 * @param body
+	 * @return
+	 */
+	@PostMapping("/api/updateshipping")
+	public ResponseEntity<String> updateShipping(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				if (JSONBody.has("weight") && JSONBody.has("cost")) {
+					AdminPageController.setCost(JSONBody.getDouble("cost"));
+					AdminPageController.setThreshold(JSONBody.getDouble("weight"));
+					return ResponseEntity.ok("Updated costs");
+				} else {
+					return ResponseEntity.ok("Request does not have a weight or cost");
 				}
 				
 			} else {

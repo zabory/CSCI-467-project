@@ -44,6 +44,7 @@ public class UserPageController {
         return "index";
     }
 	
+	
 	@PostMapping("/search")
 	public String showPage(@RequestParam("searchParam") String value,@RequestParam("cart") String cart, Model model, HttpServletResponse response) {
 		

@@ -23,9 +23,9 @@ import Database.Records.PartRecord;
 import application.App;
 
 /**
- * This class is strictly for learning purposes. It has nothing to do with the actual project.
+ * This class is strictly for learning purposes. It has nothing(everything) to do with the actual project.
  * This class contains a true restful API integration with the database and its functions
- * @author Ben Shabowski
+ * @author Ben Shabowski, Samuel Haffner, Leo Jaos,  Alicia E
  *
  */
 @Controller
@@ -193,6 +193,29 @@ public class RestfulAPIController {
 		}
 	}
 
+	
+//	@PostMapping("/api/addcustomer")
+//	public ResponseEntity<String> addCustomer(@RequestBody String body){
+//		try {
+//			JSONObject JSONBody = new JSONObject(body);
+//			if (validateUser(JSONBody)) {
+//				CustomerRecord info = DBInterfacer.getCustomerRecord(JSONBody.getInt("id"));
+//				if (info == null) {
+//					return ResponseEntity.ok("Customer ID does not exist!");
+//				} else {
+//					info.updateFromJSONObjcet(JSONBody);
+//					DBInterfacer.insert(info);
+//					return ResponseEntity.ok("Customer information updated");
+//				}
+//				
+//			} else {
+//				return ResponseEntity.ok("Invalid username or password");
+//			}
+//		} catch (JSONException e) {
+//			return ResponseEntity.ok(e.toString());
+//		}
+//	}
+	
 	/**
 	 * Edits customer record
 	 * @param body

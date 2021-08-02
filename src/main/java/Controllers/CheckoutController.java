@@ -63,7 +63,7 @@ public class CheckoutController {
 
 		return "checkout";
 	}
-
+	
 	@PostMapping("/checkout/final")
 	public String checkoutFinal(Model model, @RequestParam("name") String name, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("contact") String contact,
@@ -123,7 +123,7 @@ public class CheckoutController {
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
 		model.addAttribute("cart", "[]");
 		model.addAttribute("d_cart", new LinkedList<CartPart>());
-		return "index";
+		return "order_complete";
 	}
 
 	/**

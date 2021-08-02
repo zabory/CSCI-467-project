@@ -1,0 +1,303 @@
+package Controllers.API;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
+
+import javax.annotation.PostConstruct;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import Database.DatabaseInterfacer;
+import Database.Records.CustomerRecord;
+import Database.Records.OrderRecord;
+import Database.Records.PartRecord;
+import application.App;
+
+/**
+ * This class is strictly for learning purposes. It has nothing to do with the actual project.
+ * This class contains a true restful API integration with the database and its functions
+ * @author Ben Shabowski
+ *
+ */
+@Controller
+public class RestfulAPIController {
+
+	private DatabaseInterfacer DBInterfacer;
+
+	private enum RecordType {
+		Part, Customer, Order
+	}
+
+	@PostConstruct
+	public void initialize() {
+		DBInterfacer = App.getDatabaseInterfacer();
+	}
+
+	/**
+	 * Sends entire list of customers to get request
+	 * 
+	 * @param body
+	 * @return
+	 * @throws JSONException
+	 */
+	@GetMapping("/api/allcustomers")
+	public ResponseEntity<String> getCustomerList(@RequestBody String body) {
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			JSONObject returnInfo = new JSONObject();
+
+			if (validateUser(JSONBody)) {
+				returnInfo.put("customer-list", getAllRecords(RecordType.Customer));
+				return ResponseEntity.ok(returnInfo.toString());
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * Sends entire list of parts to get request
+	 * 
+	 * @param body
+	 * @return
+	 * @throws JSONException
+	 */
+	@GetMapping("/api/allparts")
+	public ResponseEntity<String> getPartList(@RequestBody String body) {
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			JSONObject returnInfo = new JSONObject();
+
+			if (validateUser(JSONBody)) {
+				returnInfo.put("part-list", getAllRecords(RecordType.Part));
+				return ResponseEntity.ok(returnInfo.toString());
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * Sends entire list of orders to get request
+	 * 
+	 * @param body
+	 * @return
+	 * @throws JSONException
+	 */
+	@GetMapping("/api/allorders")
+	public ResponseEntity<String> getOrderList(@RequestBody String body) {
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			JSONObject returnInfo = new JSONObject();
+
+			if (validateUser(JSONBody)) {
+				returnInfo.put("order-list", getAllRecords(RecordType.Order));
+				return ResponseEntity.ok(returnInfo.toString());
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+
+
+	/**
+	 * Sends one customer to get request by ID
+	 * 
+	 * @param body
+	 * @return
+	 * @throws JSONException
+	 */
+	@GetMapping("/api/getcustomer")
+	public ResponseEntity<String> getCustomer(@RequestBody String body) {
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			JSONObject returnInfo = new JSONObject();
+			if (validateUser(JSONBody)) {
+				CustomerRecord info = DBInterfacer.getCustomerRecord(JSONBody.getInt("id"));
+				if (info == null) {
+					return ResponseEntity.ok("User ID does not exist!");
+				} else {
+					returnInfo.put("customer", info.toJSONObject());
+					return ResponseEntity.ok(returnInfo.toString());
+				}
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * Sends one part to get request by ID
+	 * 
+	 * @param body
+	 * @return
+	 * @throws JSONException
+	 */
+	@GetMapping("/api/getpart")
+	public ResponseEntity<String> getPart(@RequestBody String body) {
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			JSONObject returnInfo = new JSONObject();
+			if (validateUser(JSONBody)) {
+				PartRecord info = DBInterfacer.getPartRecord(JSONBody.getInt("id"));
+				if (info == null) {
+					return ResponseEntity.ok("User ID does not exist!");
+				} else {
+					returnInfo.put("part", info.toJSONObject());
+					return ResponseEntity.ok(returnInfo.toString());
+				}
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+
+	/**
+	 * Sends one order to get request by ID
+	 * 
+	 * @param body
+	 * @return
+	 * @throws JSONException
+	 */
+	@GetMapping("/api/getorder")
+	public ResponseEntity<String> getOrder(@RequestBody String body) {
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			JSONObject returnInfo = new JSONObject();
+			if (validateUser(JSONBody)) {
+				PartRecord info = DBInterfacer.getPartRecord(JSONBody.getInt("id"));
+				if (info == null) {
+					return ResponseEntity.ok("User ID does not exist!");
+				} else {
+					returnInfo.put("part", info.toJSONObject());
+					return ResponseEntity.ok(returnInfo.toString());
+				}
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+
+	/**
+	 * Edits customer record
+	 * @param body
+	 * @return
+	 */
+	@PostMapping("/api/editcustomer")
+	public ResponseEntity<String> changeCustomer(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				CustomerRecord info = DBInterfacer.getCustomerRecord(JSONBody.getInt("id"));
+				if (info == null) {
+					return ResponseEntity.ok("Customer ID does not exist!");
+				} else {
+					info.updateFromJSONObjcet(JSONBody);
+					DBInterfacer.update(info);
+					return ResponseEntity.ok("Customer information updated");
+				}
+				
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * Edits part record
+	 * @param body
+	 * @return
+	 */
+	@PostMapping("/api/editpart")
+	public ResponseEntity<String> changePart(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				PartRecord info = DBInterfacer.getPartRecord(JSONBody.getInt("id"));
+				if (info == null) {
+					return ResponseEntity.ok("Part number does not exist!");
+				} else {
+					info.updateFromJSONObjcet(JSONBody);
+					DBInterfacer.update(info);
+					return ResponseEntity.ok("Part information updated");
+				}
+				
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * Validate username and password of the request
+	 * 
+	 * @param data JSONObject of the body of the request
+	 * @return true if valid user
+	 */
+	private boolean validateUser(JSONObject data) throws JSONException {
+		return data.getString("user").equals("admin") && data.getString("password").equals("password");
+	}
+
+	private JSONObject getAllRecords(RecordType type) {
+		JSONObject returnInfo = new JSONObject();
+		try {
+			if (type == RecordType.Part) {
+				LinkedList<PartRecord> records = DBInterfacer.getAllPartRecords();
+				returnInfo.put("count", records.size());
+				JSONArray partArray = new JSONArray();
+				for (PartRecord record : records) {
+					partArray.put(record.toJSONObject());
+				}
+				returnInfo.put("part-list", partArray);
+			} else if(type == RecordType.Customer) {
+				LinkedList<CustomerRecord> records = DBInterfacer.getAllCustomerRecords();
+				returnInfo.put("count", records.size());
+				JSONArray recordArray = new JSONArray();
+				for (CustomerRecord record : records) {
+					recordArray.put(record.toJSONObject());
+				}
+				returnInfo.put("customer-list", recordArray);
+			} else {
+				LinkedList<OrderRecord> records = DBInterfacer.getAllOrderRecords();
+				returnInfo.put("count", records.size());
+				JSONArray recordArray = new JSONArray();
+				for (OrderRecord record : records) {
+					recordArray.put(record.toJSONObject());
+				}
+				returnInfo.put("order-list", recordArray);
+			}
+
+			SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+			Date date = new Date();
+
+			returnInfo.put("request-time", formatter.format(date));
+		} catch (JSONException e) {
+
+		}
+		return returnInfo;
+	}
+}

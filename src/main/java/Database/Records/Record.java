@@ -1,5 +1,7 @@
 package Database.Records;
 
+import org.json.JSONObject;
+
 public interface Record {
 
 	/**
@@ -19,4 +21,16 @@ public interface Record {
 	 * @return SQL command to delete the record from the table
 	 */
 	public String delete();
+	
+	/**
+	 * 
+	 * @return Record in JSONObject
+	 */
+	public JSONObject toJSONObject();
+	
+	/**
+	 * 
+	 * @return Updates record from JSONObject
+	 */
+	public void updateFromJSONObjcet(JSONObject update);
 }

@@ -3,6 +3,9 @@ package Database.Records;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class PartRecord implements Record {
 	
 	private int number;
@@ -155,5 +158,55 @@ public class PartRecord implements Record {
 	public String toString() {
 		return "PartRecord [number=" + number + ", description=" + description + ", price=" + price + ", weight="
 				+ weight + ", pictureURL=" + pictureURL + ", quantity=" + quantity + "]";
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject record = new JSONObject();
+		
+		try {
+			record.put("number", number);
+			record.put("description", description);
+			record.put("price", price);
+			record.put("weight", weight);
+			record.put("pictureURL", pictureURL);
+			record.put("quantity", quantity);
+		} catch (JSONException e) {
+			
+		}
+		
+		return record;
+	}
+
+	@Override
+	public void updateFromJSONObjcet(JSONObject update) {
+		try {
+			if (update.has("number")) {
+				number = update.getInt("number");
+			}
+			
+			if (update.has("pictureURL")) {
+				pictureURL = update.getString("pictureURL");
+			}
+			
+			if (update.has("quantity")) {
+				quantity = update.getInt("quantity");
+			}
+
+			if (update.has("description")) {
+				description = update.getString("description");
+			}
+			
+			if(update.has("price")) {
+				price = update.getDouble("price");
+			}
+			
+			if(update.has("weight")) {
+				weight = update.getDouble("weight");
+			}
+		} catch (JSONException e) {
+
+		}
+		
 	}
 }

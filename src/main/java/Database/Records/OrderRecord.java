@@ -209,4 +209,25 @@ public class OrderRecord implements Record {
 		return "OrderRecord [date=" + date + ", ID=" + ID + ", parts=" + parts + ", authorization=" + authorization
 				+ "]";
 	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject record = new JSONObject();
+		
+		try {
+			record.put("id", ID);
+			record.put("date", date);
+			record.put("parts", partsToJSONString());
+			record.put("authorization", authorization);
+		} catch (JSONException e) {
+			
+		}
+		
+		return record;
+	}
+
+	@Override
+	public void updateFromJSONObjcet(JSONObject update) {
+		
+	}
 }

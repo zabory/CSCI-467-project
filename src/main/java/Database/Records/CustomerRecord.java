@@ -3,6 +3,9 @@ package Database.Records;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CustomerRecord implements Record {
 
 	private int id;
@@ -141,5 +144,45 @@ public class CustomerRecord implements Record {
 	public String toString() {
 		return "CustomerRecord [id=" + id + ", name=" + name + ", city=" + city + ", street=" + street + ", contact="
 				+ contact + "]";
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject record = new JSONObject();
+		
+		try {
+			record.put("id", id);
+			record.put("name", name);
+			record.put("city", city);
+			record.put("street", street);
+			record.put("contact", contact);
+		} catch (JSONException e) {
+			
+		}
+		
+		return record;
+	}
+
+	@Override
+	public void updateFromJSONObjcet(JSONObject update) {
+		try {
+			if (update.has("name")) {
+				name = update.getString("name");
+			}
+
+			if (update.has("city")) {
+				city = update.getString("city");
+			}
+			
+			if(update.has("street")) {
+				street = update.getString("street");
+			}
+			
+			if(update.has("contact")) {
+				contact = update.getString("contact");
+			}
+		} catch (JSONException e) {
+
+		}
 	}
 }

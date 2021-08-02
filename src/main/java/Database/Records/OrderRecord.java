@@ -13,7 +13,6 @@ import application.App;
 
 public class OrderRecord implements Record {
 	
-	
 	private String date;
 	private int ID;
 	private int customerID;
@@ -71,7 +70,6 @@ public class OrderRecord implements Record {
 
 
 	public OrderRecord() {
-		// TODO Auto-generated constructor stub
 		DBInterfacer = App.getDatabaseInterfacer();
 	}
 
@@ -108,15 +106,12 @@ public class OrderRecord implements Record {
 		return out.toString();
 	}
 
-
 	/**
 	 * @return the date
 	 */
 	public String getDate() {
 		return date;
 	}
-
-
 
 	/**
 	 * @param date the date to set
@@ -125,8 +120,6 @@ public class OrderRecord implements Record {
 		this.date = date;
 	}
 
-
-
 	/**
 	 * @return the iD
 	 */
@@ -134,16 +127,12 @@ public class OrderRecord implements Record {
 		return ID;
 	}
 
-
-
 	/**
 	 * @param iD the iD to set
 	 */
 	public void setID(int iD) {
 		ID = iD;
 	}
-
-
 
 	/**
 	 * @return the parts
@@ -194,8 +183,6 @@ public class OrderRecord implements Record {
 		return authorization;
 	}
 
-
-
 	/**
 	 * @param authorization the authorization to set
 	 */
@@ -222,7 +209,4 @@ public class OrderRecord implements Record {
 		return "OrderRecord [date=" + date + ", ID=" + ID + ", parts=" + parts + ", authorization=" + authorization
 				+ "]";
 	}
-	
-	
-
 }

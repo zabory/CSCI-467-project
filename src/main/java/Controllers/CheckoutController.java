@@ -51,7 +51,7 @@ public class CheckoutController {
 	@PostMapping("/checkout")
 	public String addToCart(Model model, @RequestParam("cart") String cart) {
 		model.addAttribute("cart", cart);
-		model.addAttribute("cc_error",false);
+		model.addAttribute("cc_error", false);
 		model.addAttribute("cart_total", calculateCost(cart));
 		model.addAttribute("shipping_total", calculateShippingCosts(cart));
 
@@ -65,49 +65,50 @@ public class CheckoutController {
 	}
 
 	@PostMapping("/checkout/final")
-	public String checkoutFinal(Model model,
-			@RequestParam("name") String name,@RequestParam("street") String street,
-			@RequestParam("city") String city,@RequestParam("contact") String contact, @RequestParam("cart") String cart,
-			@RequestParam("ccNumber") String ccNumber, @RequestParam("expirDate") String  expirDate) {
-		
+	public String checkoutFinal(Model model, @RequestParam("name") String name, @RequestParam("street") String street,
+			@RequestParam("city") String city, @RequestParam("contact") String contact,
+			@RequestParam("cart") String cart, @RequestParam("ccNumber") String ccNumber,
+			@RequestParam("expirDate") String expirDate) {
+
 		model.addAttribute("cart_total", calculateCost(cart));
 		model.addAttribute("shipping_total", calculateShippingCosts(cart));
-		
+
 		CustomerRecord customer = DBInterfacer.getCustomer(name);
-		
-		if(customer == null) {
+
+		if (customer == null) {
 			customer = new CustomerRecord(getOpenCustomerID(), name, city, street, contact);
 			DBInterfacer.insert(customer);
 		}
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");  
-	    Date date = new Date();
-	    HashMap<Integer, Integer> parts = new HashMap<Integer, Integer>();
-	    
-	    JSONArray partsJSON;
+
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		Date date = new Date();
+		HashMap<Integer, Integer> parts = new HashMap<Integer, Integer>();
+
+		JSONArray partsJSON;
 		try {
 			partsJSON = new JSONArray(cart);
-			
-			  for(int i = 0; i < partsJSON.length(); i++) {
-			    	try {
-						parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""), partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
-					} catch (NumberFormatException | JSONException e) {
-						e.printStackTrace();
-					}
-			    }
+
+			for (int i = 0; i < partsJSON.length(); i++) {
+				try {
+					parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""),
+							partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
+				} catch (NumberFormatException | JSONException e) {
+					e.printStackTrace();
+				}
+			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
-		}    
-		
+		}
+
 		OrderRecord order = new OrderRecord(formatter.format(date), getOpenOrderID(), parts, 1, customer.getId());
-		
+
 		double cost = calculateShippingCosts(order) + calculateCost(order);
-		
-		if(validateCreditCard(ccNumber, expirDate, cost, name, System.currentTimeMillis() + "")) {
+
+		if (validateCreditCard(ccNumber, expirDate, cost, name, System.currentTimeMillis() + "")) {
 			DBInterfacer.insert(order);
 		} else {
-			model.addAttribute("cc_error",true);
-			model.addAttribute("cart",cart);
+			model.addAttribute("cc_error", true);
+			model.addAttribute("cart", cart);
 			try {
 				model.addAttribute("d_cart", convertJsonCart(new JSONArray(cart)));
 			} catch (JSONException e) {
@@ -115,12 +116,13 @@ public class CheckoutController {
 			}
 			return "checkout";
 		}
-		
-		EmailController.doSendEmail(contact, "Your order has been submitted to Bad Car Parts R' Us", "Once we have the inventory, we will send out your order!");
+
+		EmailController.doSendEmail(contact, "Your order has been submitted to Bad Car Parts R' Us",
+				"Once we have the inventory, we will send out your order!");
 
 		model.addAttribute("products", DBInterfacer.getAllPartRecords());
-		model.addAttribute("cart","[]");
-		model.addAttribute("d_cart",new LinkedList<CartPart>());
+		model.addAttribute("cart", "[]");
+		model.addAttribute("d_cart", new LinkedList<CartPart>());
 		return "index";
 	}
 
@@ -157,6 +159,15 @@ public class CheckoutController {
 		return d_cart;
 	}
 
+	/**
+	 * Validates credit card through RESTful API
+	 * @param ccNumber Credit card number
+	 * @param expirDate Expiration date
+	 * @param amount Amount charged to card
+	 * @param name Name on the card
+	 * @param transID Transaction ID
+	 * @return If the credit card is valid or not
+	 */
 	private boolean validateCreditCard(String ccNumber, String expirDate, double amount, String name, String transID) {
 
 		String postURL = "http://blitz.cs.niu.edu/CreditCard/";
@@ -189,109 +200,140 @@ public class CheckoutController {
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Calculate cost of an order based off an order record
+	 * @param order Order record
+	 * @return Cost of that order
+	 */
 	private double calculateCost(OrderRecord order) {
 		double total = 0;
-		
-		for(Integer x: order.getParts().keySet()) {
+
+		for (Integer x : order.getParts().keySet()) {
 			total += (DBInterfacer.getPartRecord(x).getPrice() * order.getParts().get(x));
 		}
-		
+
 		return total;
 	}
-	
+
+	/**
+	 * Calculate cost of an order based off an cart JSON
+	 * @param cart cart JSON
+	 * @return Cost of that order
+	 */
 	private double calculateCost(String cart) {
 		double total = 0;
-		
+
 		HashMap<Integer, Integer> parts = new HashMap<Integer, Integer>();
-	    
-	    JSONArray partsJSON;
+
+		JSONArray partsJSON;
 		try {
 			partsJSON = new JSONArray(cart);
-			
-			  for(int i = 0; i < partsJSON.length(); i++) {
-			    	try {
-						parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""), partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
-					} catch (NumberFormatException | JSONException e) {
-						e.printStackTrace();
-					}
-			    }
+
+			for (int i = 0; i < partsJSON.length(); i++) {
+				try {
+					parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""),
+							partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
+				} catch (NumberFormatException | JSONException e) {
+					e.printStackTrace();
+				}
+			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-		
-		for(Integer x : parts.keySet()) {
+
+		for (Integer x : parts.keySet()) {
 			total += (DBInterfacer.getPartRecord(x).getPrice() * parts.get(x));
 		}
-		
+
 		return total;
 	}
-	
+
+	/**
+	 * Gets an open ID for creating new customers
+	 * @return first available ID
+	 */
 	private int getOpenCustomerID() {
 		int id = 1;
 		boolean found = DBInterfacer.getAllCustomerRecords().size() == 0;
-		while(!found) {
-			for(CustomerRecord r : DBInterfacer.getAllCustomerRecords()) {
-				if(r.getId() == id) {
+		while (!found) {
+			for (CustomerRecord r : DBInterfacer.getAllCustomerRecords()) {
+				if (r.getId() == id) {
 					found = true;
 					break;
 				}
 			}
-			if(found) {
+			if (found) {
 				id++;
 				found = false;
 			} else {
 				break;
 			}
 		}
-		
+
 		return id;
 	}
 	
+	/**
+	 * Gets an open ID for creating new order
+	 * @return first available ID
+	 */
 	private int getOpenOrderID() {
 		int id = 1;
 		boolean found = DBInterfacer.getAllOrderRecords().size() == 0;
-		while(!found) {
-			for(OrderRecord r : DBInterfacer.getAllOrderRecords()) {
-				if(r.getID() == id) {
+		while (!found) {
+			for (OrderRecord r : DBInterfacer.getAllOrderRecords()) {
+				if (r.getID() == id) {
 					found = true;
 					break;
 				}
 			}
-			if(found) {
+			if (found) {
 				id++;
 				found = false;
 			} else {
 				break;
 			}
 		}
-		
+
 		return id;
 	}
 
+	/**
+	 * Calculates shipping costs from an order record
+	 * @param order Order record
+	 * @return Shipping cost for order
+	 */
 	private double calculateShippingCosts(OrderRecord order) {
-		return ((int) (Double.parseDouble(order.getOrderWeight()) / AdminPageController.getThreshold()) + 1) * AdminPageController.getCost();
+		return ((int) (Double.parseDouble(order.getOrderWeight()) / AdminPageController.getThreshold()) + 1)
+				* AdminPageController.getCost();
 	}
-	
+
+	/**
+	 * Calculates shipping costs from a cart JSON
+	 * @param cart Cart JSON
+	 * @return Shipping cost for order
+	 */
 	private double calculateShippingCosts(String cart) {
 		OrderRecord order = new OrderRecord();
 		HashMap<Integer, Integer> parts = new HashMap<Integer, Integer>();
 		JSONArray partsJSON;
 		try {
 			partsJSON = new JSONArray(cart);
-			  for(int i = 0; i < partsJSON.length(); i++) {
-			    	try {
-						parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""), partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
-					} catch (NumberFormatException | JSONException e) {
-						e.printStackTrace();
-					}
-			    }
+			for (int i = 0; i < partsJSON.length(); i++) {
+				try {
+					parts.put(Integer.parseInt(partsJSON.getJSONObject(i).names().get(0) + ""),
+							partsJSON.getJSONObject(i).getInt(partsJSON.getJSONObject(i).names().get(0) + ""));
+				} catch (NumberFormatException | JSONException e) {
+					e.printStackTrace();
+				}
+			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		order.setParts(parts);
-		
+
 		return calculateShippingCosts(order);
 	}
 }

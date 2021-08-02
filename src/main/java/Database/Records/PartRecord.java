@@ -43,7 +43,7 @@ public class PartRecord implements Record {
 	}
 
 	public PartRecord() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**

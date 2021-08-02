@@ -42,6 +42,7 @@ public class AdminPageController {
 			return "a_home";
 		}
 	}
+	
 	@PostMapping("/login")
 	public String login(HttpServletResponse response, Model model, @ModelAttribute("loginChanger") LoginChanger t) {
 
@@ -116,6 +117,11 @@ public class AdminPageController {
 	public static double getCost() {
 		return cost;
 	}
+	
+	/**
+	 * Adds everything we need to add to the index model
+	 * @param model Model of the page
+	 */
 	public void updateInfo(Model model) {
 		model.addAttribute("orders", DBInterfacer.getAllOrderRecords());
 		model.addAttribute("customers", DBInterfacer.getAllCustomerRecords());

@@ -12,8 +12,8 @@ import org.json.JSONException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Controllers.Changer.CartPart;
@@ -32,7 +32,7 @@ public class UserPageController {
 		DBInterfacer = App.getDatabaseInterfacer();
 	}
 
-	@RequestMapping({ "/", "/index"})
+	@GetMapping({ "/", "/index"})
     public String main(Model model, @CookieValue(value = "searchParam", defaultValue = "") String searchBar) {
 		model.addAttribute("products",DBInterfacer.getAllPartRecords());
 		model.addAttribute("cart","[]");
@@ -44,7 +44,6 @@ public class UserPageController {
         return "index";
     }
 	
-
 	@PostMapping("/search")
 	public String showPage(@RequestParam("searchParam") String value,@RequestParam("cart") String cart, Model model, HttpServletResponse response) {
 		
@@ -79,17 +78,22 @@ public class UserPageController {
 		return "index";
 	}
 
-	public LinkedList<CartPart> convertJsonCart(JSONArray a) {
-		if(a == null) return new LinkedList<CartPart>();
+	/**
+	 * Converts a JSONArray cart into a LinkedList of cart
+	 * @param cartArray 
+	 * @return LinkedList of CartPart
+	 */
+	public LinkedList<CartPart> convertJsonCart(JSONArray cartArray) {
+		if(cartArray == null) return new LinkedList<CartPart>();
 		// display list for the front end
 		LinkedList<CartPart> d_cart = new LinkedList<CartPart>();
 
 		// loop through the cart items
-		for (int i = 0; i < a.length(); i++) {
+		for (int i = 0; i < cartArray.length(); i++) {
 			// Accessor for key values
 			Iterator<?> keys;
 			try {
-				keys = a.getJSONObject(i).keys();
+				keys = cartArray.getJSONObject(i).keys();
 
 				PartRecord part;
 
@@ -98,7 +102,7 @@ public class UserPageController {
 					String key = (String) keys.next();
 					part = DBInterfacer.getPartRecord(Integer.parseInt(key));
 					d_cart.add(new CartPart(part.getNumber(), part.getDescription(),
-							Integer.parseInt((String) a.getJSONObject(i).get(key))));
+							Integer.parseInt((String) cartArray.getJSONObject(i).get(key))));
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

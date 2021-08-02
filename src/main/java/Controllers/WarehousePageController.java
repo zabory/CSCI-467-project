@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import Database.DatabaseInterfacer;
-import Database.Records.OrderRecord;
 import application.App;
 
 @Controller
@@ -24,12 +23,5 @@ public class WarehousePageController {
 	@PostConstruct
 	public void initialize() {
 		DBInterfacer = App.getDatabaseInterfacer();
-	}
-	
-	public String printPackingList(int Oid)
-	{
-		OrderRecord record = DBInterfacer.getOrderRecord(Oid);
-		return "DumbCarParts`R`US \nOrder ID: " + Oid + "\t" + DBInterfacer.getCustomerRecord(record.getCustomerID()).getName() + "\n"
-				+ record.getPartDisplay() + "\n" + "Order Weight: " + record.getOrderWeight() + "\n";
 	}
 }

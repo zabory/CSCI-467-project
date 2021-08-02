@@ -21,6 +21,7 @@ public class App {
 		config.setProperty("logging.level.root", "INFO");
 		config.setProperty("server.port", "85");
 		config.setProperty("sam", "is_cool");
+		config.setProperty("ben", "is_neat");
 		
 		s.setDefaultProperties(config);
 		s.run(args);

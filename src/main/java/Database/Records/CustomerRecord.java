@@ -39,7 +39,6 @@ public class CustomerRecord implements Record {
 	}
 	
 	public CustomerRecord() {
-		// TODO Auto-generated constructor stub
 		this.id = 0;
 		this.name = "";
 		this.city = "";

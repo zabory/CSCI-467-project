@@ -17,6 +17,12 @@ public class EmailController {
 	final private static String MAIL_SERVER = "smtp.gmail.com";
 	final private static int MAIL_SERVER_PORT = 465;
 
+	/**
+	 * This sends an email out
+	 * @param address Email address to be sent too
+	 * @param sub Subject of the email
+	 * @param mess Message of the email
+	 */
 	public static void doSendEmail(String address, String sub, String mess) {
 
 		Properties properties = System.getProperties();

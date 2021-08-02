@@ -25,6 +25,15 @@ import Database.Records.PartRecord;
 
 public class PackingListGenerator {
 	
+	/**
+	 * Generates a packing list PDF to be send to the user when requested
+	 * @param customer
+	 * @param address
+	 * @param city
+	 * @param parts
+	 * @param partCounts
+	 * @return Complete ByteArray of the packing list PDF
+	 */
 	public static ByteArrayInputStream GeneratePackingList (String customer, String address, String city, LinkedList<PartRecord> parts, HashMap<Integer, Integer> partCounts) {
 		
 		

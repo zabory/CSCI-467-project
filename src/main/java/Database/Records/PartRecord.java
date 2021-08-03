@@ -181,9 +181,6 @@ public class PartRecord implements Record {
 	@Override
 	public void updateFromJSONObjcet(JSONObject update) {
 		try {
-			if (update.has("number")) {
-				number = update.getInt("number");
-			}
 			
 			if (update.has("pictureURL")) {
 				pictureURL = update.getString("pictureURL");

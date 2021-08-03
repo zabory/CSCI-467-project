@@ -50,7 +50,7 @@ public class RestfulAPIController {
 	 * @return
 	 * @throws JSONException
 	 */
-	@GetMapping("/api/allcustomers")
+	@PostMapping("/api/allcustomers")
 	public ResponseEntity<String> getCustomerList(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
@@ -72,7 +72,7 @@ public class RestfulAPIController {
 	 * @return
 	 * @throws JSONException
 	 */
-	@GetMapping("/api/allparts")
+	@PostMapping("/api/allparts")
 	public ResponseEntity<String> getPartList(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
@@ -94,7 +94,7 @@ public class RestfulAPIController {
 	 * @return
 	 * @throws JSONException
 	 */
-	@GetMapping("/api/allorders")
+	@PostMapping("/api/allorders")
 	public ResponseEntity<String> getOrderList(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
@@ -117,7 +117,7 @@ public class RestfulAPIController {
 	 * @return
 	 * @throws JSONException
 	 */
-	@GetMapping("/api/getcustomer")
+	@PostMapping("/api/getcustomer")
 	public ResponseEntity<String> getCustomer(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
@@ -145,7 +145,7 @@ public class RestfulAPIController {
 	 * @return
 	 * @throws JSONException
 	 */
-	@GetMapping("/api/getpart")
+	@PostMapping("/api/getpart")
 	public ResponseEntity<String> getPart(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
@@ -173,7 +173,7 @@ public class RestfulAPIController {
 	 * @return
 	 * @throws JSONException
 	 */
-	@GetMapping("/api/getorder")
+	@PostMapping("/api/getorder")
 	public ResponseEntity<String> getOrder(@RequestBody String body) {
 		try {
 			JSONObject JSONBody = new JSONObject(body);
@@ -193,29 +193,6 @@ public class RestfulAPIController {
 			return ResponseEntity.ok(e.toString());
 		}
 	}
-
-	
-//	@PostMapping("/api/addcustomer")
-//	public ResponseEntity<String> addCustomer(@RequestBody String body){
-//		try {
-//			JSONObject JSONBody = new JSONObject(body);
-//			if (validateUser(JSONBody)) {
-//				CustomerRecord info = DBInterfacer.getCustomerRecord(JSONBody.getInt("id"));
-//				if (info == null) {
-//					return ResponseEntity.ok("Customer ID does not exist!");
-//				} else {
-//					info.updateFromJSONObjcet(JSONBody);
-//					DBInterfacer.insert(info);
-//					return ResponseEntity.ok("Customer information updated");
-//				}
-//				
-//			} else {
-//				return ResponseEntity.ok("Invalid username or password");
-//			}
-//		} catch (JSONException e) {
-//			return ResponseEntity.ok(e.toString());
-//		}
-//	}
 	
 	/**
 	 * Edits customer record

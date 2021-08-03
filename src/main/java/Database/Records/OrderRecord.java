@@ -219,6 +219,7 @@ public class OrderRecord implements Record {
 			record.put("date", date);
 			record.put("parts", partsToJSONString());
 			record.put("authorization", authorization);
+			record.put("customerID", customerID);
 		} catch (JSONException e) {
 			
 		}

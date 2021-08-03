@@ -33,7 +33,7 @@ import application.App;
 public class CheckoutController {
 
 	private final static String VENDOR_ID = "";
-	private DatabaseInterfacer DBInterfacer;
+	private static DatabaseInterfacer DBInterfacer;
 
 	@PostConstruct
 	public void initialize() {
@@ -253,7 +253,7 @@ public class CheckoutController {
 	 * Gets an open ID for creating new customers
 	 * @return first available ID
 	 */
-	private int getOpenCustomerID() {
+	public static int getOpenCustomerID() {
 		int id = 1;
 		boolean found = DBInterfacer.getAllCustomerRecords().size() == 0;
 		while (!found) {
@@ -284,6 +284,31 @@ public class CheckoutController {
 		while (!found) {
 			for (OrderRecord r : DBInterfacer.getAllOrderRecords()) {
 				if (r.getID() == id) {
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				id++;
+				found = false;
+			} else {
+				break;
+			}
+		}
+
+		return id;
+	}
+	
+	/**
+	 * Gets an open ID for creating new order
+	 * @return first available ID
+	 */
+	public static int getOpenPartNumber() {
+		int id = 1;
+		boolean found = DBInterfacer.getAllPartRecords().size() == 0;
+		while (!found) {
+			for (PartRecord r : DBInterfacer.getAllPartRecords()) {
+				if (r.getNumber() == id) {
 					found = true;
 					break;
 				}

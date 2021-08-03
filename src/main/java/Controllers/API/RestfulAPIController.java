@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import Controllers.AdminPageController;
+import Controllers.CheckoutController;
 import Database.DatabaseInterfacer;
 import Database.Records.CustomerRecord;
 import Database.Records.OrderRecord;
@@ -398,6 +399,76 @@ public class RestfulAPIController {
 					return ResponseEntity.ok("Request does not have a order id");
 				}
 				
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * adds customer record
+	 * @param body
+	 * @return
+	 */
+	@PostMapping("/api/createcustomer")
+	public ResponseEntity<String> createCustomer(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				if (JSONBody.has("contact") && 
+						JSONBody.has("name") &&
+						JSONBody.has("city") && 
+						JSONBody.has("street")) {
+					CustomerRecord newRecord = new CustomerRecord(
+							CheckoutController.getOpenCustomerID(),
+							JSONBody.getString("name"),
+							JSONBody.getString("city"),
+							JSONBody.getString("street"),
+							JSONBody.getString("contact")
+							);
+					DBInterfacer.insert(newRecord);
+					return ResponseEntity.ok("Created customer");
+				} else {
+					return ResponseEntity.ok("Request does not have the correct fields");
+				}
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
+	/**
+	 * adds customer record
+	 * @param body
+	 * @return
+	 */
+	@PostMapping("/api/createpart")
+	public ResponseEntity<String> createPart(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				if (JSONBody.has("description") && 
+						JSONBody.has("price") &&
+						JSONBody.has("weight") && 
+						JSONBody.has("pictureURL") &&
+						JSONBody.has("quantity")) {
+					PartRecord newRecord = new PartRecord(
+							CheckoutController.getOpenPartNumber(),
+							JSONBody.getString("description"),
+							JSONBody.getDouble("price"),
+							JSONBody.getDouble("weight"),
+							JSONBody.getString("pictureURL"),
+							JSONBody.getInt("quantity")
+							);
+					DBInterfacer.insert(newRecord);
+					return ResponseEntity.ok("Created part");
+				} else {
+					return ResponseEntity.ok("part does not have the correct fields");
+				}
 			} else {
 				return ResponseEntity.ok("Invalid username or password");
 			}

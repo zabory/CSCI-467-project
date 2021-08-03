@@ -296,6 +296,28 @@ public class RestfulAPIController {
 		}
 	}
 	
+	/**
+	 * get shipping costs
+	 * @param body
+	 * @return
+	 */
+	@GetMapping("/api/getshipping")
+	public ResponseEntity<String> getShipping(@RequestBody String body){
+		try {
+			JSONObject JSONBody = new JSONObject(body);
+			if (validateUser(JSONBody)) {
+				JSONObject data = new JSONObject();
+				data.put("weight", AdminPageController.getThreshold());
+				data.put("cost", AdminPageController.getCost());
+				return ResponseEntity.ok(data.toString()); 
+			} else {
+				return ResponseEntity.ok("Invalid username or password");
+			}
+		} catch (JSONException e) {
+			return ResponseEntity.ok(e.toString());
+		}
+	}
+	
 
 	/**
 	 * deletes customer record

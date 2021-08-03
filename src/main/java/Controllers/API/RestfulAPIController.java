@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -279,7 +278,7 @@ public class RestfulAPIController {
 	 * @param body
 	 * @return
 	 */
-	@GetMapping("/api/getshipping")
+	@PostMapping("/api/getshipping")
 	public ResponseEntity<String> getShipping(@RequestBody String body){
 		try {
 			JSONObject JSONBody = new JSONObject(body);
